@@ -1,0 +1,76 @@
+{
+  "user_id": 167,
+  "policy": "maximize_expected_mastery_gain + target_band(auto)",
+  "recommendations": [
+    {
+      "item_id": 201,
+      "p_next_correct": 0.13952388481424896,
+      "expected_mastery_gain": 0.00815885717105247,
+      "score": 0.30571120001973673,
+      "reason": "skills=[38], p≈0.14, Δ≈0.008"
+    },
+    {
+      "item_id": 431,
+      "p_next_correct": 0.056752404678485,
+      "expected_mastery_gain": 0.0029008212912118004,
+      "score": 0.30203057490384827,
+      "reason": "skills=[1, 42], p≈0.06, Δ≈0.003"
+    },
+    {
+      "item_id": 24,
+      "p_next_correct": 0.061316157588870504,
+      "expected_mastery_gain": 0.0028857863489370602,
+      "score": 0.30202005044425595,
+      "reason": "skills=[8, 10], p≈0.06, Δ≈0.003"
+    },
+    {
+      "item_id": 92,
+      "p_next_correct": 0.01419904234710274,
+      "expected_mastery_gain": 0.002225768764763008,
+      "score": 0.3015580381353341,
+      "reason": "skills=[3, 8, 12], p≈0.01, Δ≈0.002"
+    },
+    {
+      "item_id": 130,
+      "p_next_correct": 0.004269169089100262,
+      "expected_mastery_gain": 0.0021578437399958454,
+      "score": 0.30151049061799706,
+      "reason": "skills=[4, 39, 41], p≈0.00, Δ≈0.002"
+    },
+    {
+      "item_id": 225,
+      "p_next_correct": 0.0024455246781241876,
+      "expected_mastery_gain": 0.002134143420825711,
+      "score": 0.2987831509930917,
+      "reason": "skills=[4, 29, 30], p≈0.00, Δ≈0.002"
+    },
+    {
+      "item_id": 231,
+      "p_next_correct": 0.0023134235296375337,
+      "expected_mastery_gain": 0.002047305415178215,
+      "score": 0.2983336992410205,
+      "reason": "skills=[3, 15, 20, 22], p≈0.00, Δ≈0.002"
+    },
+    {
+      "item_id": 54,
+      "p_next_correct": 0.0014340695862735916,
+      "expected_mastery_gain": 0.0020374769887580827,
+      "score": 0.29576527788187235,
+      "reason": "skills=[14, 16, 21, 45], p≈0.00, Δ≈0.002"
+    },
+    {
+      "item_id": 394,
+      "p_next_correct": 0.0008715699376589945,
+      "expected_mastery_gain": 0.0020276184147375734,
+      "score": 0.2941428784787033,
+      "reason": "skills=[5, 23, 31, 39], p≈0.00, Δ≈0.002"
+    },
+    {
+      "item_id": 10,
+      "p_next_correct": 0.0005899395328502435,
+      "expected_mastery_gain": 0.002030505839507467,
+      "score": 0.2933427012673606,
+      "reason": "skills=[2, 11, 21, 42], p≈0.00, Δ≈0.002"
+    }
+  ]
+}
