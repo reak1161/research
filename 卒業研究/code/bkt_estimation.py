@@ -106,3 +106,6 @@ print(report.head(10).to_string(index=False))
 
 report = predict_user(df_single, params_by_skill, user_id=42)
 print(report.head(10).to_string(index=False))
+
+report = predict_user(df_single, params_by_skill, user_id=1)
+print(report.head(10).to_string(index=False))
