@@ -1,3 +1,5 @@
+# 学習遷移をグラフ化
+
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
@@ -202,6 +204,10 @@ def main():
     ap.add_argument("--seed", type=int, default=42)
     ap.add_argument("--num-fits", type=int, default=1)
     ap.add_argument("--out", default="", help="CSVで保存するパス（未指定なら標準出力）")
+    # === Plot options ===
+    ap.add_argument("--plot-out", default="", help="時系列プロットPNGの保存先。指定時に描画を実行")
+    ap.add_argument("--skills", nargs='*', help="プロット対象スキル（空なら --skill / ユーザー出現上位）")
+    ap.add_argument("--max-plots", type=int, default=6, help="自動選択時の最大スキル数")
     args = ap.parse_args()
 
     df = pd.read_csv(args.csv)
@@ -329,6 +335,100 @@ def main():
     else:
         with pd.option_context("display.max_rows", None, "display.max_columns", None):
             print(out.to_string(index=False, float_format=lambda x: f"{x:.6f}"))
+
+    # === Plot timeseries (optional) ===
+    if args.plot_out:
+        # skill 選定
+        if args.skills and len(args.skills) > 0:
+            skills_to_plot = [str(s) for s in args.skills]
+        elif args.skill:
+            skills_to_plot = [str(args.skill)]
+        else:
+            # 該当ユーザーの出現上位から自動選択
+            cnt_user = pred[pred[cols["user_id"]].astype(str) == str(args.user)]
+            top = cnt_user.groupby(cols["skill_name"]).size().sort_values(ascending=False)
+            skills_to_plot = [str(s) for s in top.index[:args.max_plots].tolist()]
+        _plot_user_skills_timeseries(pred, par, args.user, skills_to_plot, cols, args.plot_out)
+        print(f"plot saved -> {args.plot_out}")
+
+
+def _plot_user_skills_timeseries(pred: pd.DataFrame, par: pd.DataFrame, user, skills, cols, out_path):
+    try:
+        import matplotlib.pyplot as plt
+    except Exception as e:
+        print(f"[warn] matplotlib を読み込めませんでした: {e}", file=sys.stderr)
+        return
+    user_str = str(user)
+    dfu = pred[pred[cols["user_id"]].astype(str) == user_str].copy()
+    # パラメータをスキルに付与（P(correct)計算や posterior用）
+    par_use = par.copy()
+    par_use["skill_name"] = par_use["skill_name"].astype(str)
+    dfu[cols["skill_name"]] = dfu[cols["skill_name"]].astype(str)
+    dfu = dfu.merge(par_use, how="left", left_on=cols["skill_name"], right_on="skill_name")
+
+    skills = [s for s in skills if (dfu[cols["skill_name"]] == str(s)).any()]
+    n = len(skills)
+    if n == 0:
+        print("[warn] プロット対象のスキル行が見つかりません。", file=sys.stderr)
+        return
+    ncols = 2 if n >= 2 else 1
+    nrows = int(np.ceil(n / ncols))
+    fig, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=(6*ncols, 3.6*nrows), squeeze=False)
+
+    for i, sk in enumerate(skills):
+        ax = axes[i//ncols][i%ncols]
+        sub = dfu[dfu[cols["skill_name"]] == str(sk)].sort_values(cols["order_id"]).copy()
+        if sub.empty:
+            ax.set_visible(False)
+            continue
+        x = np.arange(len(sub))
+        pL = sub["state_predictions"].astype(float).to_numpy()
+        # p_correct (予測) は列があればそれ、なければ p_S/p_G から計算
+        if "_pred_correct_now" in sub.columns:
+            pC = sub["_pred_correct_now"].astype(float).to_numpy()
+        else:
+            pS = sub["p_S"].astype(float).to_numpy()
+            pG = sub["p_G"].astype(float).to_numpy()
+            pC = (1.0 - pS) * pL + pG * (1.0 - pL)
+        y = sub[cols["correct"]].astype(int).to_numpy() if cols["correct"] in sub.columns else sub["correct"].astype(int).to_numpy()
+        # 観測後 posterior の参考線（p_S/p_G がある時のみ）
+        pS = sub["p_S"].astype(float)
+        pG = sub["p_G"].astype(float)
+        if pS.notna().any() and pG.notna().any():
+            p_post = []
+            for pp, yy, ss, gg in zip(pL, y, pS.fillna(0.0), pG.fillna(0.0)):
+                if yy == 1:
+                    num = pp*(1-ss); den = pp*(1-ss) + (1-pp)*gg
+                else:
+                    num = pp*ss;     den = pp*ss + (1-pp)*(1-gg)
+                p_post.append(num/(den+1e-12))
+            p_post = np.array(p_post)
+        else:
+            p_post = None
+
+        ax.plot(x, pL, linewidth=2.5, label="P(L) prior")
+        ax.plot(x, pC, linestyle="--", linewidth=1.8, label="P(correct)")
+        if p_post is not None:
+            ax.plot(x, p_post, linewidth=1.8, alpha=0.7, label="P(L) posterior")
+        # 正誤散布
+        ax.scatter(x[y==1], np.ones((y==1).sum()), marker="o", s=18, label="correct", alpha=0.8)
+        ax.scatter(x[y==0], np.zeros((y==0).sum()), marker="x", s=22, label="incorrect", alpha=0.8)
+
+        ax.set_ylim(-0.05, 1.05)
+        ax.set_xlim(-0.5, len(x)-0.5)
+        ax.grid(True, alpha=0.3)
+        n_obs = int(sub.shape[0])
+        ax.set_title(f"user={user_str}  skill={sk}  n={n_obs}")
+        if i == 0:
+            ax.legend(loc="best", fontsize=9)
+
+    # 余った軸を消す
+    for j in range(i+1, nrows*ncols):
+        axes[j//ncols][j%ncols].set_visible(False)
+
+    plt.tight_layout()
+    fig.savefig(out_path, dpi=160)
+    plt.close(fig)
 
 
 if __name__ == "__main__":
