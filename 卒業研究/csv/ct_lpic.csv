@@ -1,0 +1,9 @@
+timestamp,user_id,item_id,L1,L2,L3,correct
+1765179738,lpic1,1,filesystem_and_io,text_processing,sort_basic,1
+1765179772,lpic1,2,filesystem_and_io,text_processing,xargs_basic,1
+1765179775,lpic1,3,filesystem_and_io,stdio_and_pipes,pipe_grep_basic,0
+1765179779,lpic1,4,filesystem_and_io,stdio_and_pipes,here_document_symbol,0
+1765180689,lpic2,1,filesystem_and_io,text_processing,sort_basic,1
+1765180695,lpic2,2,filesystem_and_io,text_processing,xargs_basic,1
+1765180697,lpic2,3,filesystem_and_io,stdio_and_pipes,pipe_grep_basic,1
+1765180700,lpic2,4,filesystem_and_io,stdio_and_pipes,here_document_symbol,0

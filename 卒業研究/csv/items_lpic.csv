@@ -1,0 +1,5 @@
+item_id,L1,L2,L3,question_text,answer_type,choices,correct_key
+1,filesystem_and_io,text_processing,sort_basic,"ファイルの内容を並び替えて表示するためのコマンドは次のうちどれですか。","mcq","head,sort,uniq,tail","1"
+2,filesystem_and_io,text_processing,xargs_basic,"xargsコマンドについて正しく説明している文章は次のうちどれですか。","mcq","標準入力から受け取ったデータで引数を構成してコマンドを実行する,ファイルを８進数や１６進数で表示する,ファイルの文字数、単語数、票数などの構成情報を表示する,区切り文字を指定し、ファイルから指定されたフィールドの情報を取り出して表示する,ファイルを特定の行数で分割する","0"
+3,filesystem_and_io,stdio_and_pipes,pipe_grep_basic,"次のコマンドの動作を正しく説明している文章は次のうちどれですか。\n$ ls -l /etc | grep '^-\" > file.txt","mcq","grepコマンドがlsコマンドの標準入力を受け取り、file.txtへ出力する,grepコマンドがlsコマンドの標準出力を受け取り、file.txtへ出力する,lsコマンドがgrepコマンドの標準入力を受け取り、file.txtへ出力する,lsコマンドがgrepコマンドの標準出力を受け取り、file.txtへ出力する","1"
+4,filesystem_and_io,stdio_and_pipes,here_document_symbol,"ヒアドキュメントの記号を記述してください。","text","","<<"
