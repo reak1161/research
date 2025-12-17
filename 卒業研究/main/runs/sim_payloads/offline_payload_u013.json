@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "mode": "offline",
+  "user_id": "u013",
+  "user_state": {
+    "テキスト処理": 0.3857,
+    "ファイルの操作": 0.3675,
+    "標準入出力操作": 0.2581
+  },
+  "candidates": [
+    {
+      "item_id": "22",
+      "domain": "ファイルの操作",
+      "p_final": 0.4825,
+      "question_text": "ファイル名 old.txt を new.txt に変更するコマンドはどれですか？"
+    },
+    {
+      "item_id": "25",
+      "domain": "ファイルの操作",
+      "p_final": 0.475,
+      "question_text": "空のディレクトリ dir1 を削除するコマンドはどれですか？"
+    },
+    {
+      "item_id": "26",
+      "domain": "ファイルの操作",
+      "p_final": 0.4698,
+      "question_text": "隠しファイルも含めて詳細情報付きで一覧表示するコマンドとして最も適切なものはどれですか？"
+    },
+    {
+      "item_id": "21",
+      "domain": "ファイルの操作",
+      "p_final": 0.4553,
+      "question_text": "ファイル file1 を file2 としてコピーするコマンドはどれですか？"
+    },
+    {
+      "item_id": "24",
+      "domain": "ファイルの操作",
+      "p_final": 0.4233,
+      "question_text": "ディレクトリ dir1 を新しく作成するコマンドはどれですか？"
+    }
+  ]
+}

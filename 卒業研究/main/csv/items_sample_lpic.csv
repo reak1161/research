@@ -1,0 +1,31 @@
+item_id,L1,L2,L3,question_text,answer_type,choice_A,choice_B,choice_C,choice_D,correct_key,correct_text,explanation
+1,Linuxファイル操作,テキスト処理,sort,ファイルの内容を並び替えて表示するためのコマンドはどれですか？,mcq,head,sort,uniq,tail,B,,sort は標準入力やファイルの行を昇順に並び替えて表示する
+2,Linuxファイル操作,テキスト処理,uniq,連続した重複行を一つにまとめて出力するコマンドはどれですか？,mcq,grep,uniq,cut,sed,B,,uniq は同じ行が続いている部分を一つにまとめる
+3,Linuxファイル操作,テキスト処理,head,ファイルの先頭の数行だけを表示するコマンドはどれですか？,mcq,tail,head,nl,cat,B,,head はデフォルトで先頭の10行を表示する
+4,Linuxファイル操作,テキスト処理,tail,ファイルの末尾20行を表示したいときに最も適切なコマンドはどれですか？,mcq,tail -n 20 file.txt,head -n 20 file.txt,tail file.txt 20,wc -l file.txt,A,,tail -n 20 file.txt は末尾から20行分だけを表示する
+5,Linuxファイル操作,テキスト処理,wc,ファイルの行数や単語数などを表示するコマンドはどれですか？,mcq,wc,ls,cat,sort,A,,wc は行数単語数バイト数などを集計して表示する
+6,Linuxファイル操作,テキスト処理,cut,スペース区切りのテキストから2列目だけを取り出すのに適したコマンドはどれですか？,mcq,cut,paste,tr,sed,A,,cut は区切り文字とフィールド番号を指定して列を抜き出す
+7,Linuxファイル操作,テキスト処理,grep,ファイルの中から文字列 error を含む行だけを表示するコマンドはどれですか？,mcq,grep error file.txt,sort error file.txt,find error file.txt,wc error file.txt,A,,grep はパターンに一致する行を抽出する
+8,Linuxファイル操作,テキスト処理,sed,ファイル内の文字列 foo を bar に置き換えて画面に表示するコマンドはどれですか？,mcq,sed s/foo/bar/ file.txt,tr foo bar < file.txt,grep foo file.txt,sort file.txt,A,,sed は置換などの編集を行うストリームエディタとして使える
+9,Linuxファイル操作,テキスト処理,grep,行頭がシャープ記号の行だけを表示するための grep の正規表現を一つ書いてください,text,,,,,,^#,^ は行頭を表し # と組み合わせることで行頭が # の行だけを指定できる
+10,Linuxファイル操作,テキスト処理,grep,grep で大文字小文字を区別せずに検索するためのオプションを一つ書いてください,text,,,,,,-i,-i を付けるとパターンと入力の大小文字を無視して検索できる
+11,Linuxファイル操作,標準入出力操作,パイプ,ls -l /etc | grep '^-'> file.txt の動作として正しい説明はどれですか？,mcq,ls が grep の標準入力を受け取り file.txt に出力する,grep が ls の標準出力を受け取り file.txt に出力する,ls が grep の標準エラー出力を受け取り file.txt に出力する,grep が ls の標準入力を受け取り file.txt に出力する,B,,ls の出力がパイプで grep に渡されその結果が > により file.txt に書き込まれる
+12,Linuxファイル操作,標準入出力操作,リダイレクト,標準出力と標準エラー出力の両方を同じファイル out.log にリダイレクトするコマンドとして正しいものはどれですか？,mcq,command > out.log 2>&1,command 2> out.log,command >> out.log,command < out.log,A,,2>&1 を付けることで標準エラー出力を標準出力と同じ場所にまとめてリダイレクトできる
+13,Linuxファイル操作,標準入出力操作,ヒアドキュメント,シェルのヒアドキュメントで使用するリダイレクト記号を一つ書いてください,text,,,,,,<<,シェルでは << を使って後続の行を標準入力としてコマンドに渡す
+14,Linuxファイル操作,標準入出力操作,リダイレクト,既存のファイルに出力を追記するためのリダイレクト記号を一つ書いてください,text,,,,,,>>,>> を使うと既存の内容を消さずに末尾に追記できる
+15,Linuxファイル操作,標準入出力操作,パイプ,ファイルの中で pattern に一致する行数だけを数えたいときに最も適切なコマンドはどれですか？,mcq,grep pattern file.txt | wc -l,grep -n pattern file.txt,cat file.txt | wc -c,sort file.txt | wc -l,A,,grep で抽出した行を wc -l にパイプすると一致行の数を数えられる
+16,Linuxファイル操作,標準入出力操作,xargs,xargs コマンドの説明として正しいものはどれですか？,mcq,標準入力から受け取ったデータで引数を構成してコマンドを実行する,ファイルを8進数や16進数で表示する,ファイルの文字数や単語数を数える,ファイルを特定の行数で分割する,A,,xargs は標準入力を受け取りそれを引数として別のコマンドを複数回実行する
+17,Linuxファイル操作,標準入出力操作,tee,tee コマンドの説明として正しいものはどれですか？,mcq,標準入力を読み取り標準出力とファイルの両方に同時に書き出す,標準入力を並び替えて出力する,標準入力を圧縮してファイルに保存する,標準入力から空行を削除して出力する,A,,tee はパイプラインの途中で出力を分岐させて画面とファイルの両方に送る
+18,Linuxファイル操作,標準入出力操作,標準入出力,標準入力を表すファイルディスクリプタ番号はどれですか？,mcq,0,1,2,3,A,,UNIX系システムでは0が標準入力1が標準出力2が標準エラー出力を表す
+19,Linuxファイル操作,標準入出力操作,リダイレクト,コマンドの標準入力をファイルから受け取るためのリダイレクト記号を一つ書いてください,text,,,,,,<,< を使うとファイルの内容をコマンドの標準入力として渡せる
+20,Linuxファイル操作,標準入出力操作,リダイレクト,file1 と file2 を連結して all.txt に上書き保存したいときに最も適切なコマンドはどれですか？,mcq,cat file1 file2 > all.txt,cat file1 > file2 > all.txt,cat file1 file2 >> all.txt,cat > all.txt file1 file2,A,,> を使うと連結した出力で all.txt の内容を上書きできる
+21,Linuxファイル操作,ファイルの操作,cp,ファイル file1 を file2 としてコピーするコマンドはどれですか？,mcq,cp file1 file2,mv file1 file2,ln file1 file2,cat file1 > file2,A,,cp はファイルやディレクトリをコピーする
+22,Linuxファイル操作,ファイルの操作,mv,ファイル名 old.txt を new.txt に変更するコマンドはどれですか？,mcq,mv old.txt new.txt,cp old.txt new.txt,rm old.txt new.txt,ln old.txt new.txt,A,,mv はファイルの移動と名称変更の両方に使える
+23,Linuxファイル操作,ファイルの操作,rm,ファイル tmp.txt を削除するコマンドはどれですか？,mcq,rm tmp.txt,delete tmp.txt,erase tmp.txt,drop tmp.txt,A,,rm コマンドで指定したファイルを削除できる
+24,Linuxファイル操作,ファイルの操作,mkdir,ディレクトリ dir1 を新しく作成するコマンドはどれですか？,mcq,mkdir dir1,cp dir1,mv dir1,ls dir1,A,,mkdir は新しいディレクトリを作成する
+25,Linuxファイル操作,ファイルの操作,rmdir,空のディレクトリ dir1 を削除するコマンドはどれですか？,mcq,rmdir dir1,rm dir1,rm -rf dir1,delete dir1,A,,rmdir は空のディレクトリだけを削除できる
+26,Linuxファイル操作,ファイルの操作,ls,隠しファイルも含めて詳細情報付きで一覧表示するコマンドとして最も適切なものはどれですか？,mcq,ls -la,ls,ls -l,ls -a,A,,ls -la は詳細表示と隠しファイルの両方を有効にする
+27,Linuxファイル操作,ファイルの操作,chown,ファイル file.txt の所有者を user1 に変更するコマンドはどれですか？,mcq,chown user1 file.txt,chgrp user1 file.txt,chown file.txt user1,chgrp file.txt user1,A,,chown はファイルの所有ユーザーやグループを変更する
+28,Linuxファイル操作,ファイルの操作,chmod,ファイル script.sh に実行権を追加するコマンドとして最も適切なものはどれですか？,mcq,chmod +x script.sh,chmod -x script.sh,chmod 000 script.sh,chmod u-w script.sh,A,,chmod +x で全ユーザーに実行権を追加できる
+29,Linuxファイル操作,ファイルの操作,find,ルートディレクトリから名前が foo.txt のファイルを探すコマンドはどれですか？,mcq,find / -name foo.txt,grep foo.txt /,locate / foo.txt,ls / foo.txt,A,,find / -name foo.txt でルート以下から名前が foo.txt のファイルを検索できる
+30,Linuxファイル操作,ファイルの操作,touch,空のファイルを新規作成するときに使えるコマンドを一つ書いてください,text,,,,,,touch,touch コマンドは存在しないファイル名を指定すると空のファイルを作成する

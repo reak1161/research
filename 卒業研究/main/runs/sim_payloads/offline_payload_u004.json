@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "mode": "offline",
+  "user_id": "u004",
+  "user_state": {
+    "テキスト処理": 0.4079,
+    "ファイルの操作": 0.5192,
+    "標準入出力操作": 0.2789
+  },
+  "candidates": [
+    {
+      "item_id": "22",
+      "domain": "ファイルの操作",
+      "p_final": 0.6962,
+      "question_text": "ファイル名 old.txt を new.txt に変更するコマンドはどれですか？"
+    },
+    {
+      "item_id": "22",
+      "domain": "ファイルの操作",
+      "p_final": 0.6962,
+      "question_text": "ファイル名 old.txt を new.txt に変更するコマンドはどれですか？"
+    },
+    {
+      "item_id": "22",
+      "domain": "ファイルの操作",
+      "p_final": 0.6962,
+      "question_text": "ファイル名 old.txt を new.txt に変更するコマンドはどれですか？"
+    },
+    {
+      "item_id": "22",
+      "domain": "ファイルの操作",
+      "p_final": 0.6962,
+      "question_text": "ファイル名 old.txt を new.txt に変更するコマンドはどれですか？"
+    },
+    {
+      "item_id": "22",
+      "domain": "ファイルの操作",
+      "p_final": 0.6962,
+      "question_text": "ファイル名 old.txt を new.txt に変更するコマンドはどれですか？"
+    }
+  ]
+}

@@ -180,7 +180,7 @@ python pybkt_user_domain.py \
 | パフォーマンス | 10 万レコード・10 分野で 5 分以内に学習完了（Surface Laptop クラス想定）。 |
 | ロギング | 主要ステップのINFOログ、評価結果サマリを標準出力 + `runs/.../log.txt` に保存。 |
 | 再現性 | `seed` を CLI で指定。`runs/.../meta.json` に `seed, git_commit, command, timestamp` を書き出す。 |
-| ファイル構成 | `data/`, `csv/`, `json/`, `runs/` を標準化し、成果物は日付ディレクトリで管理。 |
+| ファイル構成 | `卒業研究/main/` 配下に `code/`, `csv/`, `runs/` を集約。CLI は `cd ~/repos/research/research/卒業研究/main` した状態で実行し、成果物は `main/runs/yyyymmdd_HHMM/` に保存。 |
 
 ---
 
@@ -212,6 +212,95 @@ python pybkt_user_domain.py \
 - `docs/setup_wsl_python310.md`（環境構築）
 - `code/python_3_10/pybkt_user_domain.py`（BKT ユーティリティ）
 - `code/python_3_10/bkt_irt_bridge.py`（BKT×IRT 合成）
-- `code/main/` 配下の実装（`offline_fit_bkt.py`, `plot_user_history.py`, `offline_predict_scores.py`, `build_offline_llm_payloads.py`, `interactive_lpic_quiz.py`, `evaluate_scores.py`）
+- `code/main/` 配下の実装（`offline_fit_bkt.py`, `plot_user_history.py`, `offline_predict_scores.py`, `build_offline_llm_payloads.py`, `interactive_lpic_quiz.py`, `evaluate_scores.py`, `simulate_user_logs.py`）
+
+---
+
+## 11. サンプル実行フロー
+
+> **前提**: `cd ~/repos/research/research/卒業研究/main` で作業し、相対パスはすべて `main/` 直下基準。
+
+1. **ログ生成（任意）**
+   ```bash
+   python -m code.main.simulate_user_logs \
+     --items-csv csv/items_sample_lpic.csv \
+     --items-domain-col L2 \
+     --out-csv csv/sim_logs.csv \
+     --n-users 30 \
+     --interactions-per-user 30 \
+     --seed 42
+   ```
+2. **BKT パラメータ推定**
+   ```bash
+   python -m code.main.offline_fit_bkt \
+     --csv csv/sim_logs.csv \
+     --skill-col L1 L2 \
+     --order-col order_id \
+     --correct-col correct \
+     --out-params csv/bkt_params_sim_multi.csv \
+     --out-report runs/sim_bkt_metrics_multi.csv
+   ```
+3. **履歴可視化（任意）**
+   ```bash
+   python -m code.main.plot_user_history \
+     --log-csv csv/sim_logs.csv \
+     --params-csv csv/bkt_params_sim_multi.csv \
+     --user-id u001 \
+     --skill-col L2 \
+     --order-col order_id \
+     --correct-col correct \
+     --out-dir runs/sim_history/
+   ```
+4. **IRT パラメータ推定（簡易2PL）**
+   ```bash
+   python -m code.main.fit_irt_params \
+     --log-csv csv/sim_logs.csv \
+     --user-col user_id \
+     --item-col item_id \
+     --domain-col L2 \
+     --correct-col correct \
+     --out-items csv/irt_items_estimated.csv \
+     --out-theta csv/irt_theta_estimated.csv
+   ```
+
+5. **BKT×IRT 正答確率算出**
+   ```bash
+   python -m code.main.offline_predict_scores \
+     --log-csv csv/sim_logs.csv \
+     --params-csv csv/bkt_params_sim_multi.csv \
+     --irt-items-csv csv/irt_items_estimated.csv \
+     --items-csv csv/items_sample_lpic.csv \
+     --items-domain-col L2 \
+     --skill-col L2 \
+     --mode hybrid_mean \
+     --w-bkt 0.6 \
+     --out runs/sim_user_item_scores.csv
+   ```
+6. **LLM ペイロード生成**
+   ```bash
+   python -m code.main.build_offline_llm_payloads \
+     --scores-csv runs/sim_user_item_scores.csv \
+     --out-dir runs/sim_payloads \
+     --top-k 5
+   ```
+7. **評価（任意）**
+   ```bash
+   python -m code.main.evaluate_scores \
+     --scores-csv runs/sim_user_item_scores.csv \
+     --by overall \
+     --out runs/sim_metrics_overall.csv
+   ```
+8. **CLI チューター（任意）**
+   ```bash
+   python -m code.main.interactive_lpic_quiz \
+     --user-id u001 \
+     --items-csv csv/items_sample_lpic.csv \
+     --item-id-col item_id \
+     --domain-col L2 \
+     --bkt-params-csv csv/bkt_params_sim_multi.csv \
+     --log-csv csv/sim_online_logs.csv \
+     --max-questions 5 \
+     --emit-llm-payload
+   ```
 
 本ドキュメントは、他のアシスタント/研究協力者が即座に作業へ入れるよう**要件と運用ルールを単一ソース**として管理する。変更が生じた場合は本ファイルの更新日と該当セクションを更新する。

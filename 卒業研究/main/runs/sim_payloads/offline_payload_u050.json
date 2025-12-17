@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "mode": "offline",
+  "user_id": "u050",
+  "user_state": {
+    "テキスト処理": 0.3861,
+    "ファイルの操作": 0.6,
+    "標準入出力操作": 0.6098
+  },
+  "candidates": [
+    {
+      "item_id": "16",
+      "domain": "標準入出力操作",
+      "p_final": 0.7643,
+      "question_text": "xargs コマンドの説明として正しいものはどれですか？"
+    },
+    {
+      "item_id": "16",
+      "domain": "標準入出力操作",
+      "p_final": 0.7643,
+      "question_text": "xargs コマンドの説明として正しいものはどれですか？"
+    },
+    {
+      "item_id": "22",
+      "domain": "ファイルの操作",
+      "p_final": 0.76,
+      "question_text": "ファイル名 old.txt を new.txt に変更するコマンドはどれですか？"
+    },
+    {
+      "item_id": "22",
+      "domain": "ファイルの操作",
+      "p_final": 0.76,
+      "question_text": "ファイル名 old.txt を new.txt に変更するコマンドはどれですか？"
+    },
+    {
+      "item_id": "21",
+      "domain": "ファイルの操作",
+      "p_final": 0.76,
+      "question_text": "ファイル file1 を file2 としてコピーするコマンドはどれですか？"
+    }
+  ]
+}

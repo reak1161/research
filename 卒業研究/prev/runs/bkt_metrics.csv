@@ -1,0 +1,8 @@
+skill_field,skill,n,auc,logloss
+L1,filesystem_and_io,8,0.1,0.6615800769799942
+L2,stdio_and_pipes,4,0.8333333333333334,0.3469942103282884
+L2,text_processing,4,,
+L3,here_document_symbol,2,,
+L3,pipe_grep_basic,2,0.5,0.6931471805599453
+L3,sort_basic,2,,
+L3,xargs_basic,2,,

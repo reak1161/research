@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "mode": "offline",
+  "user_id": "u012",
+  "user_state": {
+    "テキスト処理": 0.3885,
+    "ファイルの操作": 0.2036,
+    "標準入出力操作": 0.4545
+  },
+  "candidates": [
+    {
+      "item_id": "16",
+      "domain": "標準入出力操作",
+      "p_final": 0.6277,
+      "question_text": "xargs コマンドの説明として正しいものはどれですか？"
+    },
+    {
+      "item_id": "18",
+      "domain": "標準入出力操作",
+      "p_final": 0.577,
+      "question_text": "標準入力を表すファイルディスクリプタ番号はどれですか？"
+    },
+    {
+      "item_id": "18",
+      "domain": "標準入出力操作",
+      "p_final": 0.577,
+      "question_text": "標準入力を表すファイルディスクリプタ番号はどれですか？"
+    },
+    {
+      "item_id": "13",
+      "domain": "標準入出力操作",
+      "p_final": 0.4993,
+      "question_text": "シェルのヒアドキュメントで使用するリダイレクト記号を一つ書いてください"
+    },
+    {
+      "item_id": "17",
+      "domain": "標準入出力操作",
+      "p_final": 0.4788,
+      "question_text": "tee コマンドの説明として正しいものはどれですか？"
+    }
+  ]
+}

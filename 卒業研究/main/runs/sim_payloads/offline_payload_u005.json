@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "mode": "offline",
+  "user_id": "u005",
+  "user_state": {
+    "テキスト処理": 0.3829,
+    "ファイルの操作": 0.592,
+    "標準入出力操作": 0.2764
+  },
+  "candidates": [
+    {
+      "item_id": "22",
+      "domain": "ファイルの操作",
+      "p_final": 0.7549,
+      "question_text": "ファイル名 old.txt を new.txt に変更するコマンドはどれですか？"
+    },
+    {
+      "item_id": "22",
+      "domain": "ファイルの操作",
+      "p_final": 0.7549,
+      "question_text": "ファイル名 old.txt を new.txt に変更するコマンドはどれですか？"
+    },
+    {
+      "item_id": "21",
+      "domain": "ファイルの操作",
+      "p_final": 0.7547,
+      "question_text": "ファイル file1 を file2 としてコピーするコマンドはどれですか？"
+    },
+    {
+      "item_id": "29",
+      "domain": "ファイルの操作",
+      "p_final": 0.7543,
+      "question_text": "ルートディレクトリから名前が foo.txt のファイルを探すコマンドはどれですか？"
+    },
+    {
+      "item_id": "24",
+      "domain": "ファイルの操作",
+      "p_final": 0.754,
+      "question_text": "ディレクトリ dir1 を新しく作成するコマンドはどれですか？"
+    }
+  ]
+}

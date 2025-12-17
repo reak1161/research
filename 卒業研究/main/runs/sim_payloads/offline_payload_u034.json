@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "mode": "offline",
+  "user_id": "u034",
+  "user_state": {
+    "テキスト処理": 0.3842,
+    "ファイルの操作": 0.2072,
+    "標準入出力操作": 0.2628
+  },
+  "candidates": [
+    {
+      "item_id": "7",
+      "domain": "テキスト処理",
+      "p_final": 0.3119,
+      "question_text": "ファイルの中から文字列 error を含む行だけを表示するコマンドはどれですか？"
+    },
+    {
+      "item_id": "7",
+      "domain": "テキスト処理",
+      "p_final": 0.3119,
+      "question_text": "ファイルの中から文字列 error を含む行だけを表示するコマンドはどれですか？"
+    },
+    {
+      "item_id": "7",
+      "domain": "テキスト処理",
+      "p_final": 0.3119,
+      "question_text": "ファイルの中から文字列 error を含む行だけを表示するコマンドはどれですか？"
+    },
+    {
+      "item_id": "5",
+      "domain": "テキスト処理",
+      "p_final": 0.3114,
+      "question_text": "ファイルの行数や単語数などを表示するコマンドはどれですか？"
+    },
+    {
+      "item_id": "5",
+      "domain": "テキスト処理",
+      "p_final": 0.3114,
+      "question_text": "ファイルの行数や単語数などを表示するコマンドはどれですか？"
+    }
+  ]
+}
