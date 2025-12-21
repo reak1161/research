@@ -212,7 +212,7 @@ python pybkt_user_domain.py \
 - `docs/setup_wsl_python310.md`（環境構築）
 - `code/python_3_10/pybkt_user_domain.py`（BKT ユーティリティ）
 - `code/python_3_10/bkt_irt_bridge.py`（BKT×IRT 合成）
-- `code/main/` 配下の実装（`offline_fit_bkt.py`, `plot_user_history.py`, `offline_predict_scores.py`, `build_offline_llm_payloads.py`, `interactive_lpic_quiz.py`, `evaluate_scores.py`, `simulate_user_logs.py`）
+- `main/code/` 配下の実装（`offline_fit_bkt.py`, `plot_user_history.py`, `offline_predict_scores.py`, `build_offline_llm_payloads.py`, `interactive_lpic_quiz.py`, `evaluate_scores.py`, `simulate_user_logs.py`, `fit_irt_params.py`）
 
 ---
 
@@ -222,7 +222,7 @@ python pybkt_user_domain.py \
 
 1. **ログ生成（任意）**
    ```bash
-   python -m code.main.simulate_user_logs \
+   python -m code.simulate_user_logs \
      --items-csv csv/items_sample_lpic.csv \
      --items-domain-col L2 \
      --out-csv csv/sim_logs.csv \
@@ -232,7 +232,7 @@ python pybkt_user_domain.py \
    ```
 2. **BKT パラメータ推定**
    ```bash
-   python -m code.main.offline_fit_bkt \
+   python -m code.offline_fit_bkt \
      --csv csv/sim_logs.csv \
      --skill-col L1 L2 \
      --order-col order_id \
@@ -242,7 +242,7 @@ python pybkt_user_domain.py \
    ```
 3. **履歴可視化（任意）**
    ```bash
-   python -m code.main.plot_user_history \
+   python -m code.plot_user_history \
      --log-csv csv/sim_logs.csv \
      --params-csv csv/bkt_params_sim_multi.csv \
      --user-id u001 \
@@ -253,7 +253,7 @@ python pybkt_user_domain.py \
    ```
 4. **IRT パラメータ推定（簡易2PL）**
    ```bash
-   python -m code.main.fit_irt_params \
+   python -m code.fit_irt_params \
      --log-csv csv/sim_logs.csv \
      --user-col user_id \
      --item-col item_id \
@@ -263,36 +263,41 @@ python pybkt_user_domain.py \
      --out-theta csv/irt_theta_estimated.csv
    ```
 
-5. **BKT×IRT 正答確率算出**
+5. **BKT×IRT 正答確率算出（階層BKT統合後）**
    ```bash
-   python -m code.main.offline_predict_scores \
+   python -m code.offline_predict_scores \
      --log-csv csv/sim_logs.csv \
      --params-csv csv/bkt_params_sim_multi.csv \
+     --params-l1 csv/bkt_L1_params.csv \
+     --params-l2 csv/bkt_L2_params.csv \
+     --params-l3 csv/bkt_L3_params.csv \
      --irt-items-csv csv/irt_items_estimated.csv \
      --items-csv csv/items_sample_lpic.csv \
      --items-domain-col L2 \
      --skill-col L2 \
+     --hier-bkt-base 0.2 0.5 0.3 \
+     --hier-bkt-n-min 5 \
      --mode hybrid_mean \
      --w-bkt 0.6 \
      --out runs/sim_user_item_scores.csv
    ```
 6. **LLM ペイロード生成**
    ```bash
-   python -m code.main.build_offline_llm_payloads \
+   python -m code.build_offline_llm_payloads \
      --scores-csv runs/sim_user_item_scores.csv \
      --out-dir runs/sim_payloads \
      --top-k 5
    ```
 7. **評価（任意）**
    ```bash
-   python -m code.main.evaluate_scores \
+   python -m code.evaluate_scores \
      --scores-csv runs/sim_user_item_scores.csv \
      --by overall \
      --out runs/sim_metrics_overall.csv
    ```
 8. **CLI チューター（任意）**
    ```bash
-   python -m code.main.interactive_lpic_quiz \
+   python -m code.interactive_lpic_quiz \
      --user-id u001 \
      --items-csv csv/items_sample_lpic.csv \
      --item-id-col item_id \
@@ -300,7 +305,121 @@ python pybkt_user_domain.py \
      --bkt-params-csv csv/bkt_params_sim_multi.csv \
      --log-csv csv/sim_online_logs.csv \
      --max-questions 5 \
-     --emit-llm-payload
+     --emit-llm-payload \
+     --use-llm \
+     --llm-model gemini-2.5-flash \
+     --llm-min-interval 1.0
    ```
+   - `--use-llm` を付けると、直近履歴で mood を判定し、P_final を再スコアした Top-K を Gemini に送って 1 問選ばせる。応答が不正/失敗の場合は Python 側のトップ候補を使用する。
 
 本ドキュメントは、他のアシスタント/研究協力者が即座に作業へ入れるよう**要件と運用ルールを単一ソース**として管理する。変更が生じた場合は本ファイルの更新日と該当セクションを更新する。
+
+---
+
+## 12. 階層型 BKT 正答確率
+
+### 12.1 目的
+L1（大分類）・L2（中分類）・L3（小分類）の BKT を重み付きで統合し、データ量が多く安定している階層と細かい概念単位をバランスよく活用する。最終的に IRT 正答確率と統合して `P_final` を得る。
+
+### 12.2 前提
+- 各問題には `L1, L2, L3` の 3 階層ラベルがある。
+- 階層ごとの BKT パラメータ CSV (`bkt_L1_params.csv`, `bkt_L2_params.csv`, `bkt_L3_params.csv`) を用意済み。
+- 学習ログ形式: `user_id, item_id, timestamp, L1, L2, L3, correct`。
+
+### 12.3 階層別 BKT 正答確率
+- 既存の BKT 更新式で `P(next correct)` を算出:
+  - `P_bkt_L1(u, L1(i))`
+  - `P_bkt_L2(u, L2(i))`
+  - `P_bkt_L3(u, L3(i))`
+- ユーザー×階層スキルの回答数を `N_L1/N_L2/N_L3` として記録。
+
+### 12.4 重み設計
+1. ベース重み（CLI引数で調整可能）:
+   - `w1_base=0.2`, `w2_base=0.5`, `w3_base=0.3`
+2. 信頼度補正:
+   ```
+   def level_reliability(n_answers: int, n_min: int = 5) -> float:
+       return min(1.0, n_answers / n_min)
+   ```
+3. 実重み:
+   - `r_k = w_k_base * level_reliability(N_Lk)`
+   - `Z = r1 + r2 + r3`
+   - `Z > 0` のとき `w_k = r_k / Z`。`Z == 0` ならベース比率を使用。
+
+### 12.5 統合 BKT 正答確率
+```
+P_bkt_total(u, i) = w1 * P_bkt_L1(u, L1(i))
+                  + w2 * P_bkt_L2(u, L2(i))
+                  + w3 * P_bkt_L3(u, L3(i))
+```
+- いずれかの階層で値が取れない場合は `r_k = 0` にするか、0.5 を代入するなどのフォールバックを行う。
+
+### 12.6 IRT との統合
+既存の `P_final = w_bkt * P_bkt + (1 - w_bkt) * P_irt` について、BKT 部分を `P_bkt_total` に置き換える。
+
+### 12.7 実装指針
+- `offline_predict_scores.py` に階層別 BKT 読み込みと `P_bkt_total` 計算ロジックを追加。
+- 補助関数:
+  - `level_reliability(n_answers, n_min=5)`
+- `compute_hierarchical_bkt_probability(...)`
+- CLI オプション (`--params-l1`, `--params-l2`, `--params-l3`, `--hier-bkt-base`, `--hier-bkt-n-min`) を追加してパラメータを調整可能にする。
+
+---
+
+## 13. モチベーションを考慮した出題難易度制御（追加仕様）
+
+### 13.1 目的
+固定の「正答確率 60%」ではなく、直近の成績から学習者の状態を推定し、難易度レンジを動的に変える。`P_final(u,i)`（BKT×IRT、階層BKT統合後）を用い、FRUSTRATED なら解けそうな問題を多めに、CONFIDENT ならチャレンジ寄り、NORMAL は 6〜7 割狙いにする。
+
+### 13.2 learner mood 判定
+- 直近 N 問（デフォルト N=5）の正答率、連続不正解数などで `mood_state` を判定。
+- 初期案:
+  - FRUSTRATED: 正答率 <0.3 または 連続不正解 >=3
+  - CONFIDENT: 正答率 >0.8
+  - NORMAL: 上記以外
+- 閾値やウィンドウはハイパーパラメータとして調整可。
+- 関数イメージ: `get_mood_state(history, window=5) -> "FRUSTRATED"/"NORMAL"/"CONFIDENT"`
+
+### 13.3 mood ごとの狙う正答確率レンジ（初期案）
+- FRUSTRATED: target≈0.75, filter 0.60–0.90
+- NORMAL: target≈0.70, filter 0.60–0.85
+- CONFIDENT: target≈0.65, filter 0.50–0.85
+(数値は調整可)
+
+### 13.4 Python 側での候補選択
+- 入力: ユーザ u、候補問題リスト（item_id, P_final, L1/L2/L3, role など）、`mood_state`。
+- 出力: mood のレンジ内で target に近い順にソートした上位 K 問（例 K=10）。
+- 例:
+  ```python
+  def select_candidates_by_mood(candidates, mood: str, k: int = 10):
+      if mood == "FRUSTRATED":
+          target, low, high = 0.75, 0.60, 0.90
+      elif mood == "CONFIDENT":
+          target, low, high = 0.65, 0.50, 0.85
+      else:
+          target, low, high = 0.70, 0.60, 0.85
+      filtered = [c for c in candidates if low <= c["p_final"] <= high]
+      scored = sorted(filtered, key=lambda c: abs(c["p_final"] - target))
+      return scored[:k]
+  ```
+
+### 13.5 LLM ペイロードへの反映
+- LLM は難易度決定ではなく、Python が選んだ候補から選択＆フィードバック生成を行う。
+- `llm_payload.py` に `mood_state` と `policy_hint`（例: target_p_final, コメント）を含める。
+- 指示例:
+  - FRUSTRATED: p_final 高め、role=review/practice を優先し励ましのコメントを付ける。
+  - CONFIDENT: p_final 0.55–0.7 の challenge を含めてもよい、次のステップを意識したコメントにする。
+
+### 13.6 ポイント
+- 固定 60% ではなく、直近成績から mood_state を判定して難易度レンジを動かす。
+- Python 側で候補フィルタ・ソート → mood_state と方針を LLM に渡す → LLM は候補外 ID を出さずにフィードバック生成。
+
+---
+
+## 14. LLM API 利用要件（Gemini）
+- **API とライブラリ**: Google Gemini（`google-genai` 公式クライアント）。モデル既定は `gemini-2.5-flash`（利用可能モデルに応じて切替可）。
+- **認証**: 環境変数 `GEMINI_API_KEY` を使用（例: `export GEMINI_API_KEY="..."`）。キーはリポジトリやログに残さない。
+- **タイムアウト / リトライ**: 1 リクエストあたり 30s 以内、HTTP 429/5xx は指数バックオフで最大 3 回リトライ。致命的エラー時は Python 側でフォールバック（候補をそのまま提示）。
+- **レート制御**: 1 秒あたり 1 リクエスト程度にスロットルし、連続失敗時はクールダウンを入れる。
+- **ログ**: プロンプトとレスポンス本文は必要最低限のみ保存し、API キー・個人情報を含めない。`runs/` 以下にメタ（モデル名、所要時間、HTTP ステータス）を残す。
+- **オンラインモード方針**: 各出題ごとに BKT/IRT と直近履歴で候補を再スコアし、Top K（mood 反映済み）だけを LLM に渡す。LLM は候補外 ID を生成しない前提のプロンプトを付与する。
