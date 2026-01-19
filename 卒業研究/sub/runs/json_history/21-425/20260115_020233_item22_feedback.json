@@ -1,0 +1,18 @@
+{
+  "timestamp": "2026-01-15T02:02:33.938409+00:00",
+  "user_id": "21-425",
+  "item_id": "22",
+  "event": "feedback",
+  "model": "gpt-4o-mini",
+  "payload": {
+    "question_text": "ファイル data.txt の所有グループを group1 に変更するコマンドを一つ書いてください",
+    "user_answer": "nan",
+    "correct_answer": "nan",
+    "is_correct": true,
+    "explanation": "chgrp はファイルの所有グループだけを変更する"
+  },
+  "prompt": "あなたは学習者にフィードバックを返すチューターです。学習者のモチベーションが上がるような短い日本語のコメントを返してください。次の情報を参考にしてください。\n質問: ファイル data.txt の所有グループを group1 に変更するコマンドを一つ書いてください\n学習者の回答: nan\n正解: nan\n判定: 正解\n解説: chgrp はファイルの所有グループだけを変更する\n必ず {\"feedback_ja\": \"...\"} 形式の JSON だけを返してください。",
+  "response": {
+    "feedback_ja": "素晴らしい！正解です！この調子でどんどん学んでいきましょう！"
+  }
+}

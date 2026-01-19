@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0",
+  "mode": "offline",
+  "user_id": "u076",
+  "user_state": {
+    "テキスト処理": 0.701,
+    "ファイルの操作": 0.6679,
+    "標準入出力操作": 0.6256
+  },
+  "mood_state": null,
+  "policy_hint": null,
+  "candidates": [
+    {
+      "item_id": "2",
+      "domain": "テキスト処理",
+      "p_final": 0.8369,
+      "question_text": "連続した重複行を一つにまとめて出力するコマンドはどれですか？"
+    },
+    {
+      "item_id": "35",
+      "domain": "テキスト処理",
+      "p_final": 0.8347,
+      "question_text": "cut コマンドで2列目と4列目を取り出す指定を一つ書いてください"
+    },
+    {
+      "item_id": "34",
+      "domain": "テキスト処理",
+      "p_final": 0.8347,
+      "question_text": "cut コマンドで区切り文字としてコロンを指定するためのオプションと記述として正しいものはどれですか？"
+    },
+    {
+      "item_id": "6",
+      "domain": "テキスト処理",
+      "p_final": 0.8347,
+      "question_text": "スペース区切りのテキストから2列目だけを取り出すのに適したコマンドはどれですか？"
+    },
+    {
+      "item_id": "32",
+      "domain": "テキスト処理",
+      "p_final": 0.8346,
+      "question_text": "sort コマンドで数値として昇順に並び替えるためのオプションを一つ書いてください"
+    }
+  ]
+}

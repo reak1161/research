@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>BKT×IRT Demo</title>
+  <style>
+    :root {
+      --bg: #f4f6fb;
+      --panel: #fff;
+      --border: #dfe4ef;
+      --accent: #2d6cdf;
+      --text: #202632;
+      --muted: #5a6375;
+    }
+    body { font-family: 'Inter', sans-serif; margin: 0; background: var(--bg); color: var(--text); }
+    header { padding: 16px 24px; background: #fff; border-bottom: 1px solid var(--border); box-shadow: 0 1px 6px rgba(0,0,0,0.06); }
+    h1 { margin: 0 0 4px 0; }
+    .container { max-width: 1100px; margin: 24px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .panel { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 16px; box-shadow: 0 3px 10px rgba(0,0,0,0.04); }
+    .panel h2 { margin-top: 0; }
+    label { display: inline-flex; align-items: center; gap: 6px; margin-right: 10px; font-size: 14px; color: var(--muted); }
+    input { padding: 6px 10px; border: 1px solid var(--border); border-radius: 6px; }
+    button { padding: 8px 12px; border-radius: 8px; border: none; background: var(--accent); color: #fff; cursor: pointer; font-weight: 600; }
+    button.secondary { background: #eef2fb; color: var(--text); border: 1px solid var(--border); }
+    button + button { margin-left: 6px; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { padding: 6px 8px; border-bottom: 1px solid var(--border); text-align: left; }
+    pre { background: #0b1021; color: #d8dee9; padding: 10px; border-radius: 6px; overflow-x: auto; font-size: 13px; }
+    .card { border: 1px solid var(--border); border-radius: 8px; padding: 10px; margin: 6px 0; background: #fff; }
+    .muted { color: var(--muted); font-size: 13px; }
+  </style>
+</head>
+<body>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <header>
+    <h1>BKT×IRT Web Demo</h1>
+    <p class="muted">API: http://localhost:8000 を前提（変更する場合は API_BASE を書き換え）</p>
+  </header>
+
+  <div class="container">
+    <div class="panel">
+      <h2>学習者ビュー</h2>
+      <div style="margin-bottom:8px;">
+        <label>user_id: <input id="learner-id" value="u001" /></label>
+        <label>モード:
+          <select id="learner-tier-mode">
+            <option value="flat">既存</option>
+            <option value="prereq">前提Tier</option>
+          </select>
+        </label>
+        <label>閾値: <input id="learner-tier-threshold" value="0.6" size="4" /></label>
+        <label>LLM:
+          <select id="learner-llm-mode">
+            <option value="fast">高速</option>
+            <option value="accurate">正確</option>
+          </select>
+        </label>
+        <button onclick="fetchState()">状態</button>
+        <button onclick="fetchHistory()" class="secondary">履歴</button>
+        <button onclick="fetchNext()">出題</button>
+      </div>
+      <div class="panel" style="padding:12px; border-style:dashed;">
+        <h3>現在の問題</h3>
+        <div id="current-question" class="card">未出題です。「出題」を押してください。</div>
+        <div id="llm-choice" class="muted" style="margin-top:6px;"></div>
+        <div style="margin-top:8px; display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+          <label>回答: <input id="answer-text" placeholder="テキスト or 1/2/3/4" /></label>
+          <button onclick="sendAnswer()">回答送信</button>
+          <div id="choice-buttons" style="display:flex; gap:6px;"></div>
+        </div>
+        <div id="answer-status" class="muted"></div>
+      </div>
+      <div>
+        <h3>現在の学習状態</h3>
+        <div id="learner-state"></div>
+      </div>
+      <div>
+        <h3>学習状態（直近10問）</h3>
+        <div id="learner-history"></div>
+        <div style="display:flex; gap:12px; flex-wrap:wrap;">
+          <canvas id="state-chart" height="200"></canvas>
+          <canvas id="perf-chart" height="200"></canvas>
+        </div>
+      </div>
+      <pre id="learner-raw" style="display:none;"></pre>
+    </div>
+
+    <div class="panel">
+      <h2>管理者ビュー</h2>
+      <div style="margin-bottom:8px;">
+        <button onclick="fetchLearners()">学習者一覧</button>
+        <label>user_id: <input id="admin-id" value="u001" /></label>
+        <label>モード:
+          <select id="admin-tier-mode">
+            <option value="flat">既存</option>
+            <option value="prereq">前提Tier</option>
+          </select>
+        </label>
+        <label>閾値: <input id="admin-tier-threshold" value="0.6" size="4" /></label>
+        <label>LLM:
+          <select id="admin-llm-mode">
+            <option value="fast">高速</option>
+            <option value="accurate">正確</option>
+          </select>
+        </label>
+        <button onclick="fetchAdminDetail()">詳細</button>
+        <button onclick="fetchAdminNext()" class="secondary">候補</button>
+      </div>
+      <div id="admin-list"></div>
+      <div id="admin-detail"></div>
+      <div class="card" id="admin-current-question">現在の問題: 未出題</div>
+      <div id="admin-history"></div>
+      <div id="admin-llm-choice" class="muted"></div>
+      <div style="display:flex; gap:12px; flex-wrap:wrap;">
+        <canvas id="admin-state-chart" height="180"></canvas>
+        <canvas id="admin-perf-chart" height="180"></canvas>
+      </div>
+      <div id="admin-next"></div>
+      <pre id="admin-raw" style="display:none;"></pre>
+    </div>
+  </div>
+
+  <script>
+   const API_BASE = 'http://localhost:8000';
+   const fmt = (n) => n === null || n === undefined ? '-' : Number(n).toFixed(3);
+   let lastCandidates = [];
+   const charts = {};
+
+    function renderState(elemId, stateObj) {
+      const entries = Object.entries(stateObj || {});
+      if (!entries.length) {
+        document.getElementById(elemId).innerHTML = '<p>状態なし</p>';
+        return;
+      }
+      const rows = entries.map(([k,v]) => `<tr><td>${k}</td><td>${fmt(v)}</td></tr>`).join('');
+      document.getElementById(elemId).innerHTML = `<table><thead><tr><th>domain</th><th>P_final</th></tr></thead><tbody>${rows}</tbody></table>`;
+    }
+
+    function lineChart(key, elemId, labels, datasets) {
+      const ctx = document.getElementById(elemId);
+      if (!ctx) return;
+      if (charts[key]) { charts[key].destroy(); charts[key] = null; }
+      charts[key] = new Chart(ctx, {
+        type: 'line',
+        data: { labels, datasets },
+        options: {
+          scales: { y: { min: 0, max: 1 } },
+          plugins: { legend: { position: 'bottom' } },
+          animation: false,
+        }
+      });
+    }
+
+    function renderHistory(tableId, records, stateChartId, perfChartId, limit=10, showTable=true) {
+      const tableEl = document.getElementById(tableId);
+      if (!Array.isArray(records) || !records.length) {
+        if (tableEl && showTable) tableEl.innerHTML = '<p>履歴なし</p>';
+        if (stateChartId) lineChart(`chart-${stateChartId}`, stateChartId, [], []);
+        if (perfChartId) lineChart(`chart-${perfChartId}`, perfChartId, [], []);
+        return;
+      }
+      const latest = records.slice(-limit);
+      if (tableEl) {
+        if (showTable) {
+          const rows = latest.map(r => `<tr><td>${r.order_id ?? ''}</td><td>${r.domain ?? ''}</td><td>${r.item_id ?? ''}</td><td>${r.correct ?? ''}</td><td>${fmt(r.p_L_after ?? r.P_final)}</td><td>${fmt(r.P_final ?? '')}</td></tr>`).join('');
+          tableEl.innerHTML = `<p>直近${latest.length}件</p><table><thead><tr><th>order</th><th>domain</th><th>item</th><th>correct</th><th>P(L)</th><th>P_final</th></tr></thead><tbody>${rows}</tbody></table>`;
+        } else {
+          tableEl.innerHTML = '';
+        }
+      }
+
+      // 状態推移（ドメイン別）
+      if (stateChartId) {
+        const sorted = [...records].sort((a,b) => (a.order_id ?? 0) - (b.order_id ?? 0));
+        const byDomain = {};
+        sorted.forEach(r => {
+          const dom = r.domain || 'domain';
+          if (!byDomain[dom]) byDomain[dom] = [];
+          const val = r.p_L_after ?? r.P_final;
+          if (val === null || val === undefined) return;
+          byDomain[dom].push({ order: r.order_id ?? '', val });
+        });
+        // 各ドメインで直近10件のみ
+        Object.keys(byDomain).forEach(dom => {
+          byDomain[dom] = byDomain[dom].slice(-limit);
+        });
+        // 直近順で 1..limit の連番ラベルにする（各ドメインを連続折れ線に）
+        const maxLen = Math.max(0, ...Object.values(byDomain).map(arr => arr.length));
+        const labels = Array.from({length: maxLen}, (_, i) => String(i + 1));
+        const colors = ['#2d6cdf', '#10b981', '#f97316', '#7c3aed', '#ef4444', '#14b8a6'];
+        const datasets = Object.entries(byDomain).map(([dom, arr], idx) => ({
+          label: dom,
+          data: labels.map((_, i) => (i < arr.length ? arr[i].val : null)),
+          borderColor: colors[idx % colors.length],
+          tension: 0.25,
+          fill: false
+        }));
+        lineChart(`chart-${stateChartId}`, stateChartId, labels, datasets);
+      }
+
+      // 正答率と予測値
+      if (perfChartId) {
+        const labels = latest.map(r => r.order_id ?? '').map(String);
+        const pfinal = latest.map(r => r.P_final ?? r.p_L_after ?? null);
+        const correct = latest.map(r => (r.correct === null || r.correct === undefined) ? null : Number(r.correct));
+        const datasets = [
+          { label: 'P_final/P(L)', data: pfinal, borderColor: '#2d6cdf', tension: 0.2, fill: false },
+          { label: 'correct(0/1)', data: correct, borderColor: '#ef4444', tension: 0, stepped: true, fill: false }
+        ];
+        lineChart(`chart-${perfChartId}`, perfChartId, labels, datasets);
+      }
+    }
+
+    function renderNext(elemId, data) {
+      const list = data?.candidates || [];
+      lastCandidates = list;
+      const target = elemId ? document.getElementById(elemId) : null;
+      if (!target) return;
+      if (!list.length) {
+        target.innerHTML = '<p>候補なし</p>';
+        return;
+      }
+      const cards = list.map(c => `
+        <div style="border:1px solid #e0e4ec;padding:8px;margin:6px 0;border-radius:6px;">
+          <div><strong>item:</strong> ${c.item_id} / <strong>domain:</strong> ${c.domain}</div>
+          <div><strong>P_final:</strong> ${fmt(c.p_final)}</div>
+          <div>${c.question_text || ''}</div>
+          ${c.choices ? `<ol type="A" style="margin-left:20px;">${c.choices.map((ch,i)=>`<li value="${i+1}">${ch}</li>`).join('')}</ol>` : ''}
+        </div>
+      `).join('');
+      target.innerHTML = cards;
+    }
+
+    function renderQuestion(elemId, candidate, showButtons) {
+      const target = document.getElementById(elemId);
+      if (!target) return;
+      if (!candidate) {
+        target.innerHTML = '未出題です。';
+        if (showButtons) {
+          document.getElementById('choice-buttons').innerHTML = '';
+        }
+        return;
+      }
+      const choices = candidate.choices ? `<ol type="A" style="margin-left:20px;">${candidate.choices.map((ch,i)=>`<li value="${i+1}">${ch}</li>`).join('')}</ol>` : '';
+      target.innerHTML = `
+        <div><strong>item:</strong> ${candidate.item_id} / <strong>domain:</strong> ${candidate.domain}</div>
+        <div><strong>P_final:</strong> ${fmt(candidate.p_final)}</div>
+        <div style="margin-top:6px;">${candidate.question_text || ''}</div>
+        ${choices}
+      `;
+      if (showButtons) {
+        const btnArea = document.getElementById('choice-buttons');
+        if (candidate.choices && candidate.choices.length) {
+          btnArea.innerHTML = candidate.choices.map((ch, idx) => {
+            const letter = String.fromCharCode(65 + idx);
+            return `<button class="secondary" onclick="setChoice('${letter}')">${letter}</button>`;
+          }).join('');
+        } else {
+          btnArea.innerHTML = '';
+        }
+      }
+    }
+
+    function renderCurrentQuestion(candidate) {
+      if (!candidate) {
+        document.getElementById('current-question').innerHTML = '未出題です。「出題」を押してください。';
+        document.getElementById('choice-buttons').innerHTML = '';
+        return;
+      }
+      renderQuestion('current-question', candidate, true);
+    }
+
+    function setChoice(letter) {
+      document.getElementById('answer-text').value = letter;
+    }
+
+    function renderLlmChoice(elemId, data) {
+      const el = document.getElementById(elemId);
+      if (!el) return;
+      const choice = data?.llm_choice;
+      if (!choice) {
+        el.textContent = '';
+        return;
+      }
+      const reason = choice.reason_ja || '';
+      const moti = choice.motivation_ja || '';
+      const qtext = choice.question_text ? `<div style="margin-top:4px;">${choice.question_text}</div>` : '';
+      el.innerHTML = `<strong>LLMおすすめ:</strong> item ${choice.item_id}<br>理由: ${reason}<br>ひとこと: ${moti}${qtext}`;
+    }
+
+    function renderAdminList(elemId, data) {
+      const list = data?.learners || [];
+      if (!list.length) {
+        document.getElementById(elemId).innerHTML = '<p>学習者なし</p>';
+        return;
+      }
+      const rows = list.map(l => `<tr><td>${l.user_id}</td><td>${fmt(l.recent_acc)}</td><td>${l.last_ts ?? ''}</td></tr>`).join('');
+      document.getElementById(elemId).innerHTML = `<table><thead><tr><th>user_id</th><th>recent_acc</th><th>last_ts</th></tr></thead><tbody>${rows}</tbody></table>`;
+    }
+
+    async function fetchJson(url, options={}) {
+      const res = await fetch(url, { headers: { 'Content-Type': 'application/json' }, ...options });
+      if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+      return res.json();
+    }
+
+    async function fetchState() {
+      const uid = document.getElementById('learner-id').value.trim();
+      try {
+        const data = await fetchJson(`${API_BASE}/learner/${uid}/state`);
+        renderState('learner-state', data.state);
+        document.getElementById('learner-raw').textContent = JSON.stringify(data, null, 2);
+      } catch (e) {
+        document.getElementById('learner-state').textContent = e.toString();
+      }
+    }
+
+    async function fetchHistory() {
+      const uid = document.getElementById('learner-id').value.trim();
+      try {
+        const data = await fetchJson(`${API_BASE}/learner/${uid}/history`);
+        // 学習者側は表を表示せずグラフのみ
+        renderHistory('learner-history', data.history, 'state-chart', 'perf-chart', 10, false);
+        document.getElementById('learner-raw').textContent = JSON.stringify(data, null, 2);
+      } catch (e) {
+        document.getElementById('learner-history').textContent = e.toString();
+      }
+    }
+
+    async function fetchNext() {
+      const uid = document.getElementById('learner-id').value.trim();
+      const mode = document.getElementById('learner-tier-mode').value;
+      const threshold = document.getElementById('learner-tier-threshold').value;
+      const llmMode = document.getElementById('learner-llm-mode').value;
+      try {
+        const data = await fetchJson(`${API_BASE}/session/next?user_id=${encodeURIComponent(uid)}&top_k=5&use_llm=1&set_current=1&tier_mode=${encodeURIComponent(mode)}&tier_threshold=${encodeURIComponent(threshold)}&llm_mode=${encodeURIComponent(llmMode)}`, { method: 'POST' });
+        renderNext(null, data);
+        let selected = data?.candidates?.[0];
+        if (data?.llm_choice?.item_id) {
+          const hit = (data.candidates || []).find(c => String(c.item_id) === String(data.llm_choice.item_id));
+          if (hit) selected = hit;
+        }
+        renderCurrentQuestion(selected);
+        renderLlmChoice('llm-choice', data);
+        document.getElementById('learner-raw').textContent = JSON.stringify(data, null, 2);
+        if (data?.candidates?.length) {
+          document.getElementById('answer-text').value = '';
+        }
+      } catch (e) {
+        document.getElementById('answer-status').textContent = e.toString();
+      }
+    }
+
+    async function sendAnswer() {
+      const uid = document.getElementById('learner-id').value.trim();
+      const itemId = (lastCandidates[0]?.item_id || '').trim();
+      const ans = document.getElementById('answer-text').value.trim();
+      if (!uid || !itemId || !ans) {
+        document.getElementById('learner-next').textContent = 'user_id / item_id / answer を入力してください';
+        return;
+      }
+      try {
+        const res = await fetchJson(`${API_BASE}/session/answer`, {
+          method: 'POST',
+          body: JSON.stringify({ user_id: uid, item_id: itemId, answer: ans })
+        });
+        const correctInfo = res.correct ? '✅ 正解' : `❌ 不正解 (正解: ${res.correct_key || ''})`;
+        document.getElementById('answer-status').textContent = `${correctInfo} | p_L_after=${fmt(res.p_L_after)} p_next=${fmt(res.p_next)}`;
+        renderHistory('learner-history', res.history, 'state-chart', 'perf-chart', 10, false);
+        // 回答後に次候補を取得
+        const mode = document.getElementById('learner-tier-mode').value;
+        const threshold = document.getElementById('learner-tier-threshold').value;
+        const llmMode = document.getElementById('learner-llm-mode').value;
+        const next = await fetchJson(`${API_BASE}/session/next?user_id=${encodeURIComponent(uid)}&top_k=5&use_llm=1&set_current=1&tier_mode=${encodeURIComponent(mode)}&tier_threshold=${encodeURIComponent(threshold)}&llm_mode=${encodeURIComponent(llmMode)}`, { method: 'POST' });
+        renderNext(null, next);
+        let selected = next?.candidates?.[0];
+        if (next?.llm_choice?.item_id) {
+          const hit = (next.candidates || []).find(c => String(c.item_id) === String(next.llm_choice.item_id));
+          if (hit) selected = hit;
+        }
+        renderCurrentQuestion(selected);
+        renderLlmChoice('llm-choice', next);
+      } catch (e) {
+        document.getElementById('answer-status').textContent = e.toString();
+      }
+    }
+
+    async function fetchLearners() {
+      try {
+        const data = await fetchJson(`${API_BASE}/admin/learners`);
+        renderAdminList('admin-list', data);
+        document.getElementById('admin-raw').textContent = JSON.stringify(data, null, 2);
+      } catch (e) {
+        document.getElementById('admin-list').textContent = e.toString();
+      }
+    }
+
+    async function fetchAdminDetail() {
+      const uid = document.getElementById('admin-id').value.trim();
+      try {
+        const data = await fetchJson(`${API_BASE}/admin/learner/${uid}`);
+        renderState('admin-detail', data.state);
+        renderHistory('admin-history', data.history, 'admin-state-chart', 'admin-perf-chart');
+        renderQuestion('admin-current-question', data.current_question, false);
+        document.getElementById('admin-raw').textContent = JSON.stringify(data, null, 2);
+      } catch (e) {
+        document.getElementById('admin-detail').textContent = e.toString();
+      }
+    }
+
+    async function fetchAdminNext() {
+      const uid = document.getElementById('admin-id').value.trim();
+      if (!uid) return;
+      try {
+        const mode = document.getElementById('admin-tier-mode').value;
+        const threshold = document.getElementById('admin-tier-threshold').value;
+        const llmMode = document.getElementById('admin-llm-mode').value;
+        const data = await fetchJson(`${API_BASE}/session/next?user_id=${encodeURIComponent(uid)}&top_k=5&use_llm=1&set_current=0&tier_mode=${encodeURIComponent(mode)}&tier_threshold=${encodeURIComponent(threshold)}&llm_mode=${encodeURIComponent(llmMode)}`, { method: 'POST' });
+        renderNext('admin-next', data);
+        renderLlmChoice('admin-llm-choice', data);
+        document.getElementById('admin-raw').textContent = JSON.stringify(data, null, 2);
+      } catch (e) {
+        document.getElementById('admin-next').textContent = e.toString();
+      }
+    }
+  </script>
+</body>
+</html>

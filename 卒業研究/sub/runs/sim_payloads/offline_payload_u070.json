@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0",
+  "mode": "offline",
+  "user_id": "u070",
+  "user_state": {
+    "テキスト処理": 0.6931,
+    "ファイルの操作": 0.4358,
+    "標準入出力操作": 0.5852
+  },
+  "mood_state": null,
+  "policy_hint": null,
+  "candidates": [
+    {
+      "item_id": "35",
+      "domain": "テキスト処理",
+      "p_final": 0.8281,
+      "question_text": "cut コマンドで2列目と4列目を取り出す指定を一つ書いてください"
+    },
+    {
+      "item_id": "34",
+      "domain": "テキスト処理",
+      "p_final": 0.8281,
+      "question_text": "cut コマンドで区切り文字としてコロンを指定するためのオプションと記述として正しいものはどれですか？"
+    },
+    {
+      "item_id": "6",
+      "domain": "テキスト処理",
+      "p_final": 0.8281,
+      "question_text": "スペース区切りのテキストから2列目だけを取り出すのに適したコマンドはどれですか？"
+    },
+    {
+      "item_id": "42",
+      "domain": "テキスト処理",
+      "p_final": 0.8276,
+      "question_text": "grep でパターンに一致しない行だけを表示するオプションとして正しいものはどれですか？"
+    },
+    {
+      "item_id": "7",
+      "domain": "テキスト処理",
+      "p_final": 0.8276,
+      "question_text": "ファイルの中から文字列 error を含む行だけを表示するコマンドはどれですか？"
+    }
+  ]
+}

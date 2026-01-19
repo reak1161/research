@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0",
+  "mode": "offline",
+  "user_id": "u059",
+  "user_state": {
+    "テキスト処理": 0.7019,
+    "ファイルの操作": 0.4805,
+    "標準入出力操作": 0.5873
+  },
+  "mood_state": null,
+  "policy_hint": null,
+  "candidates": [
+    {
+      "item_id": "32",
+      "domain": "テキスト処理",
+      "p_final": 0.8422,
+      "question_text": "sort コマンドで数値として昇順に並び替えるためのオプションを一つ書いてください"
+    },
+    {
+      "item_id": "1",
+      "domain": "テキスト処理",
+      "p_final": 0.8422,
+      "question_text": "ファイルの内容を並び替えて表示するためのコマンドはどれですか？"
+    },
+    {
+      "item_id": "33",
+      "domain": "テキスト処理",
+      "p_final": 0.8422,
+      "question_text": "sort コマンドで逆順に並び替えるためのオプションはどれですか？"
+    },
+    {
+      "item_id": "35",
+      "domain": "テキスト処理",
+      "p_final": 0.8347,
+      "question_text": "cut コマンドで2列目と4列目を取り出す指定を一つ書いてください"
+    },
+    {
+      "item_id": "34",
+      "domain": "テキスト処理",
+      "p_final": 0.8347,
+      "question_text": "cut コマンドで区切り文字としてコロンを指定するためのオプションと記述として正しいものはどれですか？"
+    }
+  ]
+}

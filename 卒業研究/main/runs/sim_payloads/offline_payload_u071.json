@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0",
+  "mode": "offline",
+  "user_id": "u071",
+  "user_state": {
+    "テキスト処理": 0.4,
+    "ファイルの操作": 0.3884,
+    "標準入出力操作": 0.3431
+  },
+  "mood_state": null,
+  "policy_hint": null,
+  "candidates": [
+    {
+      "item_id": "60",
+      "domain": "ファイルの操作",
+      "p_final": 0.4431,
+      "question_text": "指定したファイルの種類を判定して表示するコマンドはどれですか？"
+    },
+    {
+      "item_id": "30",
+      "domain": "ファイルの操作",
+      "p_final": 0.4312,
+      "question_text": "空のファイルを新規作成するときに使えるコマンドを一つ書いてください"
+    },
+    {
+      "item_id": "53",
+      "domain": "標準入出力操作",
+      "p_final": 0.4279,
+      "question_text": "標準出力を表すファイルディスクリプタ番号を一つ書いてください"
+    },
+    {
+      "item_id": "27",
+      "domain": "ファイルの操作",
+      "p_final": 0.42,
+      "question_text": "ファイル file.txt の所有者を user1 に変更するコマンドはどれですか？"
+    },
+    {
+      "item_id": "43",
+      "domain": "テキスト処理",
+      "p_final": 0.4137,
+      "question_text": "sed で1行目から5行目だけを表示するコマンドを一つ書いてください"
+    }
+  ]
+}

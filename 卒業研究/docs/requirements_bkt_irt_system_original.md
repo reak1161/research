@@ -294,6 +294,8 @@ LPIC 版例: `code/python_3_10/interactive_lpic_quiz.py`
   - 候補問題（未出題 or 最近解いていない問題など）
   から `build_llm_payload()` を呼び出し、ペイロードを JSON で標準出力に出す（実際の API 呼び出しは別モジュールでも可）。
 - オンラインモードでは、直近履歴から `mood_state` を判定し、`P_final` を再スコアした Top-K だけを Gemini に送るオプションを用意する（CLI 例: `--use-llm --llm-model gemini-2.5-flash --llm-min-interval 1.0`）。LLM 応答が不正/失敗のときは Python 側のトップ候補にフォールバック。
+- P_final の優先供給は「オフライン計算結果（offline_predict_scores の CSV）を読み込んで item ごとに反映」を基本とし、未スコアの item は BKT の P(L) でフォールバックする。将来的にクイズ内で階層BKT＋IRT を逐次計算するリアルタイム版を検討する場合は、同等ロジックをオンライン側に組み込むこと。
+- **P_final の供給方針**: 現行はオフライン計算 (`offline_predict_scores.py`) の出力 CSV を読み込んで item ごとの P_final を候補に使う運用を推奨。将来的にリアルタイム計算（クイズ内で階層BKT＋IRTを逐次評価）を検討する場合は、同じロジックをオンライン側に持ち込む。
 
 ---
 

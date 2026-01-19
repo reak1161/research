@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0",
+  "mode": "offline",
+  "user_id": "u073",
+  "user_state": {
+    "テキスト処理": 0.6455,
+    "ファイルの操作": 0.3834,
+    "標準入出力操作": 0.3322
+  },
+  "mood_state": null,
+  "policy_hint": null,
+  "candidates": [
+    {
+      "item_id": "2",
+      "domain": "テキスト処理",
+      "p_final": 0.814,
+      "question_text": "連続した重複行を一つにまとめて出力するコマンドはどれですか？"
+    },
+    {
+      "item_id": "8",
+      "domain": "テキスト処理",
+      "p_final": 0.8071,
+      "question_text": "ファイル内の文字列 foo を bar に置き換えて画面に表示するコマンドはどれですか？"
+    },
+    {
+      "item_id": "43",
+      "domain": "テキスト処理",
+      "p_final": 0.8071,
+      "question_text": "sed で1行目から5行目だけを表示するコマンドを一つ書いてください"
+    },
+    {
+      "item_id": "42",
+      "domain": "テキスト処理",
+      "p_final": 0.8064,
+      "question_text": "grep でパターンに一致しない行だけを表示するオプションとして正しいものはどれですか？"
+    },
+    {
+      "item_id": "7",
+      "domain": "テキスト処理",
+      "p_final": 0.8064,
+      "question_text": "ファイルの中から文字列 error を含む行だけを表示するコマンドはどれですか？"
+    }
+  ]
+}

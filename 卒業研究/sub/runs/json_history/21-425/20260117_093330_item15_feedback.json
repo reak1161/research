@@ -1,0 +1,19 @@
+{
+  "timestamp": "2026-01-17T09:33:30.351200+00:00",
+  "user_id": "21-425",
+  "item_id": "15",
+  "event": "feedback",
+  "model": "gpt-4o-mini",
+  "payload": {
+    "question_text": "gzip 圧縮されたアーカイブ backup.tar.gz を展開する tar のコマンドを一つ書いてください",
+    "user_answer": "tar backup.tar.gz",
+    "correct_answer": "tar xzf backup.tar.gz",
+    "is_correct": false,
+    "explanation": "tar xzf で展開と同時に gzip 解凍を行うことができる"
+  },
+  "prompt": "あなたは学習者にフィードバックを返すチューターです。学習者のモチベーションが上がるような短い日本語のコメントと、簡潔な補足説明を返してください。次の情報を参考にしてください。\n質問: gzip 圧縮されたアーカイブ backup.tar.gz を展開する tar のコマンドを一つ書いてください\n学習者の回答: tar backup.tar.gz\n正解: tar xzf backup.tar.gz\n判定: 不正解\n解説: tar xzf で展開と同時に gzip 解凍を行うことができる\n必ず {\"feedback_ja\": \"...\", \"extra_ja\": \"...\"} 形式の JSON だけを返してください。",
+  "response": {
+    "feedback_ja": "素晴らしい挑戦です！",
+    "extra_ja": "正しいコマンドは 'tar xzf backup.tar.gz' です。'x' は展開、'z' は gzip 解凍を意味します。次回も頑張りましょう！"
+  }
+}

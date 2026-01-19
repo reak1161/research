@@ -1,0 +1,20 @@
+{
+  "timestamp": "2026-01-19T00:27:07.763363+00:00",
+  "user_id": "user000",
+  "item_id": "14",
+  "event": "feedback",
+  "model": "gpt-4o-mini",
+  "latency_ms": 3968.2055119992583,
+  "payload": {
+    "question_text": "ディレクトリ dir1 を archive.tar という名前のアーカイブにまとめるコマンドとして最も適切なものはどれですか？",
+    "user_answer": "1",
+    "correct_answer": "A",
+    "is_correct": true,
+    "explanation": "tar cf で新しいアーカイブファイルを作成できる"
+  },
+  "prompt": "[system]\nあなたは学習者にフィードバックを返すチューターです。\n\n必ず JSON オブジェクト 1つだけを出力してください。\n形式:\n{\"feedback_ja\": \"...\", \"extra_ja\": \"...\"}\n\n- feedback_ja:\n    学習者の感情に寄り添う1〜2文の短いコメント。\n    ルール:\n    - is_correct が true のとき:\n        * 正解を素直にほめる\n        * どこが良かったかを1か所具体的に述べる\n        * mood_state が CONFIDENT のときは\n          「次はもう一段難しい問題に挑戦しよう」などチャレンジを促す表現も可\n    - is_correct が false のとき:\n        * 責めない。まず「ここを押さえれば大丈夫」という安心感を伝える\n        * 可能であれば、学習者の回答のどこが惜しかったのかを1点だけ触れる\n    - 定型的な励まし表現のみにはしない。\n      毎回、問題の内容（ドメインやコマンド名）に少なくとも1回は触れること。\n\n- extra_ja:\n    1〜3文程度の簡潔な補足説明。\n    - 「なぜその答えが正解／不正解なのか」\n    - 「Linux の実務でどんな場面で使うか」\n    - 「次に確認してほしいポイント」\n    のうち 1〜2 個を説明してください。\n\n[user]\n次の情報を参考に、JSON 形式でフィードバックを返してください。\n質問: ディレクトリ dir1 を archive.tar という名前のアーカイブにまとめるコマンドとして最も適切なものはどれですか？\n選択肢:\nA. tar cf archive.tar dir1\nB. tar xf archive.tar dir1\nC. tar czf dir1 archive.tar\nD. tar tvf archive.tar dir1\n\n学習者の回答: 1 (tar cf archive.tar dir1)\n正解: A (tar cf archive.tar dir1)\n判定: 正解\n解説: tar cf で新しいアーカイブファイルを作成できる\nmood_state: NORMAL\ntier: 2\nrecent_correct_rate: 0.800\nis_correct: true\n",
+  "response": {
+    "feedback_ja": "素晴らしい！正しいコマンドを選んで、アーカイブファイルを作成する方法をしっかり理解していますね。",
+    "extra_ja": "'tar cf' コマンドは新しいアーカイブを作成するために使用され、Linuxのバックアップ作業などで非常に役立ちます。次はもう一段難しい問題に挑戦してみましょう！"
+  }
+}

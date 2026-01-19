@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0",
+  "mode": "offline",
+  "user_id": "u075",
+  "user_state": {
+    "テキスト処理": 0.463,
+    "ファイルの操作": 0.5736,
+    "標準入出力操作": 0.6202
+  },
+  "mood_state": null,
+  "policy_hint": null,
+  "candidates": [
+    {
+      "item_id": "13",
+      "domain": "標準入出力操作",
+      "p_final": 0.8092,
+      "question_text": "シェルのヒアドキュメントで使用するリダイレクト記号を一つ書いてください"
+    },
+    {
+      "item_id": "50",
+      "domain": "標準入出力操作",
+      "p_final": 0.8092,
+      "question_text": "cat コマンドに複数行の文字列を直接渡してファイルに保存したいときに使う構文として最も適切なものはどれですか？"
+    },
+    {
+      "item_id": "51",
+      "domain": "標準入出力操作",
+      "p_final": 0.8029,
+      "question_text": "find と xargs を組み合わせて見つかったファイルを一括で削除するコマンドとして最も適切なものはどれですか？"
+    },
+    {
+      "item_id": "16",
+      "domain": "標準入出力操作",
+      "p_final": 0.8029,
+      "question_text": "xargs コマンドの説明として正しいものはどれですか？"
+    },
+    {
+      "item_id": "52",
+      "domain": "標準入出力操作",
+      "p_final": 0.7878,
+      "question_text": "tee コマンドを使ってログを画面に表示しながら同時に log.txt に追記したいときに最も適切なコマンドはどれですか？"
+    }
+  ]
+}

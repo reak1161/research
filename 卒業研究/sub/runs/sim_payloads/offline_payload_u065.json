@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0",
+  "mode": "offline",
+  "user_id": "u065",
+  "user_state": {
+    "テキスト処理": 0.431,
+    "ファイルの操作": 0.67,
+    "標準入出力操作": 0.6148
+  },
+  "mood_state": null,
+  "policy_hint": null,
+  "candidates": [
+    {
+      "item_id": "24",
+      "domain": "ファイルの操作",
+      "p_final": 0.8564,
+      "question_text": "ディレクトリ dir1 を新しく作成するコマンドはどれですか？"
+    },
+    {
+      "item_id": "26",
+      "domain": "ファイルの操作",
+      "p_final": 0.8181,
+      "question_text": "隠しファイルも含めて詳細情報付きで一覧表示するコマンドとして最も適切なものはどれですか？"
+    },
+    {
+      "item_id": "22",
+      "domain": "ファイルの操作",
+      "p_final": 0.8131,
+      "question_text": "ファイル名 old.txt を new.txt に変更するコマンドはどれですか？"
+    },
+    {
+      "item_id": "54",
+      "domain": "標準入出力操作",
+      "p_final": 0.8077,
+      "question_text": "標準エラー出力を表すファイルディスクリプタ番号を一つ書いてください"
+    },
+    {
+      "item_id": "18",
+      "domain": "標準入出力操作",
+      "p_final": 0.8074,
+      "question_text": "標準入力を表すファイルディスクリプタ番号はどれですか？"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0",
+  "mode": "offline",
+  "user_id": "u056",
+  "user_state": {
+    "テキスト処理": 0.6777,
+    "ファイルの操作": 0.6777,
+    "標準入出力操作": 0.5553
+  },
+  "mood_state": null,
+  "policy_hint": null,
+  "candidates": [
+    {
+      "item_id": "24",
+      "domain": "ファイルの操作",
+      "p_final": 0.8508,
+      "question_text": "ディレクトリ dir1 を新しく作成するコマンドはどれですか？"
+    },
+    {
+      "item_id": "35",
+      "domain": "テキスト処理",
+      "p_final": 0.8295,
+      "question_text": "cut コマンドで2列目と4列目を取り出す指定を一つ書いてください"
+    },
+    {
+      "item_id": "8",
+      "domain": "テキスト処理",
+      "p_final": 0.8261,
+      "question_text": "ファイル内の文字列 foo を bar に置き換えて画面に表示するコマンドはどれですか？"
+    },
+    {
+      "item_id": "43",
+      "domain": "テキスト処理",
+      "p_final": 0.8237,
+      "question_text": "sed で1行目から5行目だけを表示するコマンドを一つ書いてください"
+    },
+    {
+      "item_id": "55",
+      "domain": "ファイルの操作",
+      "p_final": 0.8217,
+      "question_text": "既存ファイル file.txt に対してシンボリックリンク link.txt を作成するコマンドとして最も適切なものはどれですか？"
+    }
+  ]
+}

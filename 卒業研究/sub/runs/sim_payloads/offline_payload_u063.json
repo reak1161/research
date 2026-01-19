@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0",
+  "mode": "offline",
+  "user_id": "u063",
+  "user_state": {
+    "テキスト処理": 0.4854,
+    "ファイルの操作": 0.666,
+    "標準入出力操作": 0.5919
+  },
+  "mood_state": null,
+  "policy_hint": null,
+  "candidates": [
+    {
+      "item_id": "13",
+      "domain": "標準入出力操作",
+      "p_final": 0.8367,
+      "question_text": "シェルのヒアドキュメントで使用するリダイレクト記号を一つ書いてください"
+    },
+    {
+      "item_id": "50",
+      "domain": "標準入出力操作",
+      "p_final": 0.8367,
+      "question_text": "cat コマンドに複数行の文字列を直接渡してファイルに保存したいときに使う構文として最も適切なものはどれですか？"
+    },
+    {
+      "item_id": "25",
+      "domain": "ファイルの操作",
+      "p_final": 0.8314,
+      "question_text": "空のディレクトリ dir1 を削除するコマンドはどれですか？"
+    },
+    {
+      "item_id": "57",
+      "domain": "ファイルの操作",
+      "p_final": 0.8177,
+      "question_text": "tar で gzip 圧縮されたアーカイブ archive.tar.gz を展開するコマンドを一つ書いてください"
+    },
+    {
+      "item_id": "28",
+      "domain": "ファイルの操作",
+      "p_final": 0.8174,
+      "question_text": "ファイル script.sh に実行権を追加するコマンドとして最も適切なものはどれですか？"
+    }
+  ]
+}

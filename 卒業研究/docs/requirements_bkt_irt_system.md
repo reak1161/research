@@ -226,15 +226,15 @@ python pybkt_user_domain.py \
      --items-csv csv/items_sample_lpic.csv \
      --items-domain-col L2 \
      --out-csv csv/sim_logs.csv \
-     --n-users 30 \
-     --interactions-per-user 30 \
+     --n-users 80 \
+     --interactions-per-user 120 \
      --seed 42
    ```
 2. **BKT パラメータ推定**
    ```bash
    python -m code.offline_fit_bkt \
      --csv csv/sim_logs.csv \
-     --skill-col L1 L2 \
+     --skill-col L1 L2 L3 \
      --order-col order_id \
      --correct-col correct \
      --out-params csv/bkt_params_sim_multi.csv \
@@ -260,7 +260,8 @@ python pybkt_user_domain.py \
      --domain-col L2 \
      --correct-col correct \
      --out-items csv/irt_items_estimated.csv \
-     --out-theta csv/irt_theta_estimated.csv
+     --out-theta csv/irt_theta_estimated.csv \
+     --theta-clip 4 --b-clip 4
    ```
 
 5. **BKT×IRT 正答確率算出（階層BKT統合後）**
@@ -268,9 +269,9 @@ python pybkt_user_domain.py \
    python -m code.offline_predict_scores \
      --log-csv csv/sim_logs.csv \
      --params-csv csv/bkt_params_sim_multi.csv \
-     --params-l1 csv/bkt_L1_params.csv \
-     --params-l2 csv/bkt_L2_params.csv \
-     --params-l3 csv/bkt_L3_params.csv \
+     --params-l1 csv/bkt_params_sim_multi.csv --params-l1-field L1 \
+     --params-l2 csv/bkt_params_sim_multi.csv --params-l2-field L2 \
+     --params-l3 csv/bkt_params_sim_multi.csv --params-l3-field L3 \
      --irt-items-csv csv/irt_items_estimated.csv \
      --items-csv csv/items_sample_lpic.csv \
      --items-domain-col L2 \
@@ -303,6 +304,7 @@ python pybkt_user_domain.py \
      --item-id-col item_id \
      --domain-col L2 \
      --bkt-params-csv csv/bkt_params_sim_multi.csv \
+     --scores-csv runs/sim_user_item_scores.csv \
      --log-csv csv/sim_online_logs.csv \
      --max-questions 5 \
      --emit-llm-payload \
@@ -311,6 +313,7 @@ python pybkt_user_domain.py \
      --llm-min-interval 1.0
    ```
    - `--use-llm` を付けると、直近履歴で mood を判定し、P_final を再スコアした Top-K を Gemini に送って 1 問選ばせる。応答が不正/失敗の場合は Python 側のトップ候補を使用する。
+   - **P_final の供給方針**: まずはオフライン計算 (`offline_predict_scores.py`) の出力 CSV から item ごとの P_final を読み込んで候補を作る運用を優先。将来的にリアルタイム計算（クイズ内で階層BKT＋IRTを逐次評価）を検討する場合は、同等のロジックをオンライン側にも組み込むこと。
 
 本ドキュメントは、他のアシスタント/研究協力者が即座に作業へ入れるよう**要件と運用ルールを単一ソース**として管理する。変更が生じた場合は本ファイルの更新日と該当セクションを更新する。
 

@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0",
+  "mode": "offline",
+  "user_id": "u052",
+  "user_state": {
+    "テキスト処理": 0.4063,
+    "ファイルの操作": 0.6058,
+    "標準入出力操作": 0.5356
+  },
+  "mood_state": null,
+  "policy_hint": null,
+  "candidates": [
+    {
+      "item_id": "55",
+      "domain": "ファイルの操作",
+      "p_final": 0.7894,
+      "question_text": "既存ファイル file.txt に対してシンボリックリンク link.txt を作成するコマンドとして最も適切なものはどれですか？"
+    },
+    {
+      "item_id": "57",
+      "domain": "ファイルの操作",
+      "p_final": 0.7808,
+      "question_text": "tar で gzip 圧縮されたアーカイブ archive.tar.gz を展開するコマンドを一つ書いてください"
+    },
+    {
+      "item_id": "22",
+      "domain": "ファイルの操作",
+      "p_final": 0.7736,
+      "question_text": "ファイル名 old.txt を new.txt に変更するコマンドはどれですか？"
+    },
+    {
+      "item_id": "25",
+      "domain": "ファイルの操作",
+      "p_final": 0.7732,
+      "question_text": "空のディレクトリ dir1 を削除するコマンドはどれですか？"
+    },
+    {
+      "item_id": "21",
+      "domain": "ファイルの操作",
+      "p_final": 0.7701,
+      "question_text": "ファイル file1 を file2 としてコピーするコマンドはどれですか？"
+    }
+  ]
+}

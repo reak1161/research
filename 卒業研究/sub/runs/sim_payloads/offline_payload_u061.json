@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0",
+  "mode": "offline",
+  "user_id": "u061",
+  "user_state": {
+    "テキスト処理": 0.4137,
+    "ファイルの操作": 0.4914,
+    "標準入出力操作": 0.3376
+  },
+  "mood_state": null,
+  "policy_hint": null,
+  "candidates": [
+    {
+      "item_id": "28",
+      "domain": "ファイルの操作",
+      "p_final": 0.6343,
+      "question_text": "ファイル script.sh に実行権を追加するコマンドとして最も適切なものはどれですか？"
+    },
+    {
+      "item_id": "59",
+      "domain": "ファイルの操作",
+      "p_final": 0.5296,
+      "question_text": "chmod で所有者に読み書き実行権限グループに読み実行その他に読み取りのみを与えるモードを数字で一つ書いてください"
+    },
+    {
+      "item_id": "56",
+      "domain": "ファイルの操作",
+      "p_final": 0.5172,
+      "question_text": "複数のファイルを1つのアーカイブファイル archive.tar にまとめるコマンドとして最も適切なものはどれですか？"
+    },
+    {
+      "item_id": "29",
+      "domain": "ファイルの操作",
+      "p_final": 0.5123,
+      "question_text": "ルートディレクトリから名前が foo.txt のファイルを探すコマンドはどれですか？"
+    },
+    {
+      "item_id": "57",
+      "domain": "ファイルの操作",
+      "p_final": 0.5092,
+      "question_text": "tar で gzip 圧縮されたアーカイブ archive.tar.gz を展開するコマンドを一つ書いてください"
+    }
+  ]
+}
