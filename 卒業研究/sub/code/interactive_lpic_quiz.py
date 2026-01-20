@@ -322,7 +322,8 @@ def write_llm_history(
 ) -> None:
     safe_user = "".join(ch for ch in str(user_id) if ch.isalnum() or ch in ("-", "_")) or "user"
     ts = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
-    filename = f"{ts}_item{item_id}_{event}.json"
+    safe_item = str(item_id).replace(":", "-")
+    filename = f"{ts}_item{safe_item}_{event}.json"
     out_path = Path("runs") / "json_history" / safe_user / filename
     ensure_directory(out_path)
     record = {
