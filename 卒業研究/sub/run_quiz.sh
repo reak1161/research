@@ -15,5 +15,7 @@ python -m code.interactive_lpic_quiz \
   --log-csv csv/sim_online_logs.csv \
   --init-log-csv csv/sim_logs.csv \
   --init-include-log \
+  --irt-items-csv csv/irt_items_estimated.csv \
+  --pfinal-mode realtime \
   --use-llm \
   --llm-model gpt-4o-mini

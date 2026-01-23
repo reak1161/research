@@ -139,8 +139,10 @@ def plot_skill_history(user: str, skill: str, seq_df: pd.DataFrame, out_dir: Pat
     ax.set_title(f"user={user}  skill={skill}")
     ax.legend(loc="lower right")
     png_path = out_dir / f"user_{user}_skill_{skill}.png"
+    pdf_path = out_dir / f"user_{user}_skill_{skill}.pdf"
     fig.tight_layout()
     fig.savefig(png_path)
+    fig.savefig(pdf_path)
     plt.close(fig)
 
 
