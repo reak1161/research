@@ -11,7 +11,7 @@
         --items-csv csv/items_sample_lpic_tier.csv \
         --items-domain-col L2 \
         --out-csv csv/sim_logs.csv \
-        --n-users 80 \
+        --n-users 50 \
         --interactions-per-user 120 \
         --seed 42
 """
@@ -50,6 +50,7 @@ def parse_args() -> argparse.Namespace:
 
 
 def sigmoid(x: np.ndarray) -> np.ndarray:
+    # 人工ログ生成時の正答確率モデル: p = 1/(1+exp(-(theta-difficulty)))
     return 1.0 / (1.0 + np.exp(-x))
 
 
@@ -72,7 +73,7 @@ def main() -> None:
     if items.empty:
         raise ValueError("items CSV に行がありません。")
 
-    # アイテム難易度をランダムに割り当て
+    # 各問題に潜在難易度を割り当てる（同じCSVでも seed が変わると変化）
     items["difficulty"] = rng.normal(loc=0.0, scale=args.difficulty_std, size=len(items))
 
     user_ids = [f"u{idx+1:03d}" for idx in range(args.n_users)]
@@ -81,7 +82,8 @@ def main() -> None:
     rows = []
     order_counter = 0
     for user in user_ids:
-        # 分野ごとにユーザー能力θをサンプリング
+        # ユーザー能力は「分野ごと」に独立してサンプリングする。
+        # これにより同一ユーザーでも分野による得手不得手が発生する。
         domains = items["domain"].unique()
         abilities = {
             domain: rng.normal(loc=0.0, scale=args.ability_std)
@@ -89,7 +91,8 @@ def main() -> None:
         }
         for step in range(args.interactions_per_user):
             order_counter += 1
-            # 現在の分野は学習度が低そうなものを少し優先
+            # 現状は単純ランダムに分野を選択。
+            # 必要なら「低習得分野を優先」などの方策をここに追加できる。
             domain = rng.choice(domains)
             pool = items[items["domain"] == domain]
             if pool.empty:
@@ -97,6 +100,7 @@ def main() -> None:
             item = pool.sample(n=1, random_state=int(rng.integers(0, 1 << 32))).iloc[0]
             theta = abilities[domain]
             diff = item["difficulty"]
+            # Bernoulli(p_correct) で 0/1 正誤をサンプルする。
             # 現在の生成モデルは 1PL 相当: p = sigmoid(theta - diff)。
             # より実データに近づける場合は、3PL への拡張を検討する:
             #   p = c + (1-c) * sigmoid(a * (theta - b))
