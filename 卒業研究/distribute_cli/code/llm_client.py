@@ -14,6 +14,15 @@ import urllib.request
 from typing import Any, Dict, Optional
 
 
+def _strip_code_fence(text: str) -> str:
+    stripped = text.strip()
+    if stripped.startswith("```") and stripped.endswith("```"):
+        lines = stripped.splitlines()
+        if len(lines) >= 3:
+            return "\n".join(lines[1:-1]).strip()
+    return text
+
+
 class OpenAIClient:
     """A small wrapper around OpenAI Chat Completions with rate limiting."""
 
@@ -56,6 +65,7 @@ class OpenAIClient:
 
         self._throttle()
         last_err: Exception | None = None
+        last_text: str | None = None
         for attempt in range(1, self.max_retries + 1):
             try:
                 payload = {
@@ -79,10 +89,18 @@ class OpenAIClient:
                 with urllib.request.urlopen(req, timeout=self.timeout) as resp:
                     data = json.loads(resp.read().decode("utf-8"))
                 text = data["choices"][0]["message"]["content"].strip()
+                last_text = text
                 if expect_json:
                     try:
                         return json.loads(text)
                     except json.JSONDecodeError:
+                        stripped = _strip_code_fence(text)
+                        if stripped != text:
+                            try:
+                                return json.loads(stripped)
+                            except json.JSONDecodeError:
+                                last_err = RuntimeError("Failed to parse JSON from response")
+                                continue
                         last_err = RuntimeError("Failed to parse JSON from response")
                         continue
                 return {"text": text}
@@ -92,6 +110,8 @@ class OpenAIClient:
                     time.sleep(self.min_interval)
                     continue
                 break
+        if last_text is not None:
+            return {"_raw_text": last_text, "_parse_error": str(last_err) if last_err else "parse_error"}
         if last_err:
             raise last_err
         return None

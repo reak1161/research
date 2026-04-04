@@ -1,0 +1,152 @@
+{
+  "timestamp": "2026-02-18T07:18:53.932860+00:00",
+  "user_id": "user_000",
+  "item_id": "7",
+  "event": "selection",
+  "model": "gpt-4o-mini",
+  "latency_ms": 4167.188474995783,
+  "payload": {
+    "schema_version": "1.0",
+    "mode": "online",
+    "user_id": "user_000",
+    "user_state": {
+      "基本的なファイル管理": 0.9097,
+      "所有者とパーミッション": 0.2647,
+      "基本的なファイル管理:t1": 0.4564,
+      "基本的なファイル管理:t2": 0.3539,
+      "所有者とパーミッション:t1": 0.513,
+      "所有者とパーミッション:t2": 0.171,
+      "所有者とパーミッション:t3": 0.5549
+    },
+    "metrics_note_ja": "P(L)_current は習得度、P(correct_now) が正答確率です。",
+    "user_metrics": {
+      "基本的なファイル管理": {
+        "p_L_current": 0.9097,
+        "p_correct_now": 0.7294
+      },
+      "所有者とパーミッション": {
+        "p_L_current": 0.2647,
+        "p_correct_now": 0.4637
+      },
+      "基本的なファイル管理:t1": {
+        "p_L_current": 0.4564,
+        "p_correct_now": 0.5376
+      },
+      "基本的なファイル管理:t2": {
+        "p_L_current": 0.3539,
+        "p_correct_now": 0.446
+      },
+      "所有者とパーミッション:t1": {
+        "p_L_current": 0.513,
+        "p_correct_now": 0.5703
+      },
+      "所有者とパーミッション:t2": {
+        "p_L_current": 0.171,
+        "p_correct_now": 0.4501
+      },
+      "所有者とパーミッション:t3": {
+        "p_L_current": 0.5549,
+        "p_correct_now": 0.5345
+      }
+    },
+    "candidates_indexed": [
+      {
+        "index": 0,
+        "item_id": "18",
+        "domain": "所有者とパーミッション",
+        "tier": 1,
+        "p_final": 0.3683,
+        "question_text": "ls -l の出力に含まれる r や w や x などの文字は何を表していますか？"
+      },
+      {
+        "index": 1,
+        "item_id": "7",
+        "domain": "基本的なファイル管理",
+        "tier": 2,
+        "p_final": 0.9316,
+        "question_text": "rm コマンドで削除前に確認しながら対話的に削除したいときに付けるオプションはどれですか？"
+      },
+      {
+        "index": 2,
+        "item_id": "19",
+        "domain": "所有者とパーミッション",
+        "tier": 1,
+        "p_final": 0.4416,
+        "question_text": "所有者に読み書きグループとその他に読み取りのみを許可するパーミッションを数字3桁で表したものとして正しいのはどれですか？"
+      },
+      {
+        "index": 3,
+        "item_id": "8",
+        "domain": "基本的なファイル管理",
+        "tier": 1,
+        "p_final": 0.9212,
+        "question_text": "ファイル file1 をディレクトリ dir にコピーするコマンドとして正しいものはどれですか？"
+      },
+      {
+        "index": 4,
+        "item_id": "21",
+        "domain": "所有者とパーミッション",
+        "tier": 1,
+        "p_final": 0.3146,
+        "question_text": "ファイル data.txt の所有者を user1 に変更するコマンドとして正しいものはどれですか？"
+      },
+      {
+        "index": 5,
+        "item_id": "9",
+        "domain": "基本的なファイル管理",
+        "tier": 2,
+        "p_final": 0.9183,
+        "question_text": "ディレクトリ A をタイムスタンプと権限を保ったままディレクトリ B にコピーしたいときに最も適切なコマンドはどれですか？"
+      },
+      {
+        "index": 6,
+        "item_id": "22",
+        "domain": "所有者とパーミッション",
+        "tier": 1,
+        "p_final": 0.3706,
+        "question_text": "ファイル data.txt の所有グループを group1 に変更するコマンドを一つ書いてください"
+      },
+      {
+        "index": 7,
+        "item_id": "10",
+        "domain": "基本的なファイル管理",
+        "tier": 1,
+        "p_final": 0.911,
+        "question_text": "ディレクトリ A の中の file.txt をディレクトリ B に移動するコマンドとして正しいものはどれですか？"
+      }
+    ],
+    "last_answer_correct": true,
+    "overall_streak": {
+      "correct": 4,
+      "incorrect": 0
+    },
+    "recent_correct_rate_5": 0.8,
+    "domain_streak": {
+      "基本的なファイル管理": {
+        "correct": 4,
+        "incorrect": 0
+      },
+      "所有者とパーミッション": {
+        "correct": 0,
+        "incorrect": 1
+      }
+    },
+    "domain_recent_correct_rate_5": {
+      "基本的なファイル管理": 0.8,
+      "所有者とパーミッション": 0.0
+    },
+    "recent_domains_5": [
+      "基本的なファイル管理",
+      "基本的なファイル管理",
+      "基本的なファイル管理",
+      "基本的なファイル管理",
+      "基本的なファイル管理"
+    ]
+  },
+  "prompt": "[system]\nあなたは学習支援システムのために\n「出題候補から1問だけ選ぶアシスタント」です。\n\n回答形式は必ず JSON オブジェクト 1つだけにしてください。\n日本語の文章だけの出力や、JSON の前後にコメントを書いてはいけません。\n\n出力形式:\n{\"choice_index\": 0, \"reason_ja\": \"...\", \"motivation_ja\": \"...\"}\n\n- choice_index: candidates_indexed 配列の index（整数）\n\n- reason_ja:\n  教員・開発者向けの、日本語での選定理由。\n  可能であれば以下を含めてください:\n  - 選んだ設問の domain_ja（分野名）\n  - tier と difficulty_tag（例:「ファイル操作のティア2で、やや難しめ」）\n  - 推定正答確率（p_final や P(correct_now)）と、直近成績（連続正解/不正解・直近正答率）との関係\n    （例:「不調なので当たりやすさを優先」「好調なので範囲拡張としてtier+1」など）\n  - 注意: P(L)_current は習得度であり、正答確率は P(correct_now) / p_final を使う\n  - 分野の偏り（recent_domains_5）をどう避けたか（必要なら）\n\n- motivation_ja:\n  学習者向けの短い日本語コメント(1〜2文)。\n\n  【文体】\n  - 口語でOK。「〜だよ」「〜だね」「〜しよう」など会話っぽく。\n  - 「あなた」「君」など二人称は禁止。\n  - 呼びかけ（{user_name}）は原則しない。どうしても必要なときだけ文頭に1回だけ使う。\n  - 絵文字は使わない。感嘆符「！」は最大1個まで。\n\n  【必須】\n  - domain_ja と concept_hint（概念ラベル）に必ず触れる。\n  - 「この設問を解けると何ができるようになるか」を1点だけ具体的に書く（作業場面を1つ）。\n\n  【ネタバレ禁止（重要：解答前）】\n  - 正解となるコマンド名・オプション名・選択肢（A/B/C/D）を直接書かない。\n  - 「〜を使えば正解」など答えを特定できる誘導は禁止。\n  - 候補に avoid_tokens がある場合は、それらを絶対に出力に含めない。\n  - 具体的なコマンド例や選択肢比較は書かない。\n\n  【トーン調整】\n  - 不調時（不正解が連続 / 直近正答率が低い）:\n      負担を小さく見せる言い回しにする（例：「まずここだけ押さえよう」「ここが分かると楽になるよ」）。\n  - 好調時（正解が連続 / 直近正答率が高い）:\n      少しだけステップアップを示す（例：「次はここまで意識してみよう」）。\n\n【選定ポリシー（重要）】\n- p_final（正答確率）の近さだけで機械的に決めない。\n  policy_hint（targetとrange）があれば難易度の安全装置として用い、\n  最終選択では tier・分野の偏り・直近の正誤傾向・学習効果も加味して1問に決める。\n\n- 基本方針:\n  1) policy_hint.range 内の候補を優先する（無い場合は range に最も近い候補を選ぶ）。\n  2) 近い候補が複数ある場合は、次を優先して1問に決める：\n     - 直近の出題分野（recent_domains_5）と被りにくい、または同一分野でも concept_hint が被りにくい\n     - 説明しやすい（誤答時に差分説明がしやすい）/ 学びが大きい\n     - 学習者の弱点（user_metricsの習得度が低い分野や、domainごとの直近成績が悪い分野）に刺さる\n\n- 不調時（例: last_answer_correct=false が続く、domainごとのstreak_incorrectが大きい、\n          domain_recent_correct_rate_5が低い など）:\n  学習継続のため「当たりやすさ」を優先する。\n  * range 内で p_final が比較的高めの候補を優先する（目安: 0.65〜0.80）。\n  * 分野は大きく切り替えず、直前分野の復習（tierを下げる/維持）で成功体験を作りやすい内容に寄せる。\n\n- 好調時（例: last_answer_correct=true が続く、domainごとのstreak_correctが大きい、\n          domain_recent_correct_rate_5が高い など）:\n  「難易度を上げる」より「学習範囲を前に進める」を優先する。\n  * p_final が極端に高すぎる（楽勝）候補に偏らないようにしつつ、\n    tier を +1 する、または新しい concept_hint に広げる候補を優先する。\n  * tier の上げ幅は基本1段まで（急に難しくしすぎない）。\n\n【分野（domain）の切り替え】\n- 分野ごとの直近成績（domain_streak, domain_recent_correct_rate_5）と user_metrics を参照し、\n  安定して正解できる分野は出題頻度を下げ、未習得〜中程度の分野を優先して範囲を広げる。\n- ただし不調時は分野を大きく切り替えず、まずは直前分野の復習を優先する。\n\n[assistant]\n了解しました。JSON だけで応答します。\n\n[user]\n次の JSON を読み、最適と思う choice_index と\n選定理由(reason_ja)、学習者のモチベーションが上がる短いコメント(motivation_ja)を返してください。\nchoice_index は candidates_indexed の index を使ってください。\n\n{\"schema_version\": \"1.0\", \"mode\": \"online\", \"user_id\": \"user_000\", \"user_state\": {\"基本的なファイル管理\": 0.9097, \"所有者とパーミッション\": 0.2647, \"基本的なファイル管理:t1\": 0.4564, \"基本的なファイル管理:t2\": 0.3539, \"所有者とパーミッション:t1\": 0.513, \"所有者とパーミッション:t2\": 0.171, \"所有者とパーミッション:t3\": 0.5549}, \"metrics_note_ja\": \"P(L)_current は習得度、P(correct_now) が正答確率です。\", \"user_metrics\": {\"基本的なファイル管理\": {\"p_L_current\": 0.9097, \"p_correct_now\": 0.7294}, \"所有者とパーミッション\": {\"p_L_current\": 0.2647, \"p_correct_now\": 0.4637}, \"基本的なファイル管理:t1\": {\"p_L_current\": 0.4564, \"p_correct_now\": 0.5376}, \"基本的なファイル管理:t2\": {\"p_L_current\": 0.3539, \"p_correct_now\": 0.446}, \"所有者とパーミッション:t1\": {\"p_L_current\": 0.513, \"p_correct_now\": 0.5703}, \"所有者とパーミッション:t2\": {\"p_L_current\": 0.171, \"p_correct_now\": 0.4501}, \"所有者とパーミッション:t3\": {\"p_L_current\": 0.5549, \"p_correct_now\": 0.5345}}, \"candidates_indexed\": [{\"index\": 0, \"item_id\": \"18\", \"domain\": \"所有者とパーミッション\", \"tier\": 1, \"p_final\": 0.3683, \"question_text\": \"ls -l の出力に含まれる r や w や x などの文字は何を表していますか？\"}, {\"index\": 1, \"item_id\": \"7\", \"domain\": \"基本的なファイル管理\", \"tier\": 2, \"p_final\": 0.9316, \"question_text\": \"rm コマンドで削除前に確認しながら対話的に削除したいときに付けるオプションはどれですか？\"}, {\"index\": 2, \"item_id\": \"19\", \"domain\": \"所有者とパーミッション\", \"tier\": 1, \"p_final\": 0.4416, \"question_text\": \"所有者に読み書きグループとその他に読み取りのみを許可するパーミッションを数字3桁で表したものとして正しいのはどれですか？\"}, {\"index\": 3, \"item_id\": \"8\", \"domain\": \"基本的なファイル管理\", \"tier\": 1, \"p_final\": 0.9212, \"question_text\": \"ファイル file1 をディレクトリ dir にコピーするコマンドとして正しいものはどれですか？\"}, {\"index\": 4, \"item_id\": \"21\", \"domain\": \"所有者とパーミッション\", \"tier\": 1, \"p_final\": 0.3146, \"question_text\": \"ファイル data.txt の所有者を user1 に変更するコマンドとして正しいものはどれですか？\"}, {\"index\": 5, \"item_id\": \"9\", \"domain\": \"基本的なファイル管理\", \"tier\": 2, \"p_final\": 0.9183, \"question_text\": \"ディレクトリ A をタイムスタンプと権限を保ったままディレクトリ B にコピーしたいときに最も適切なコマンドはどれですか？\"}, {\"index\": 6, \"item_id\": \"22\", \"domain\": \"所有者とパーミッション\", \"tier\": 1, \"p_final\": 0.3706, \"question_text\": \"ファイル data.txt の所有グループを group1 に変更するコマンドを一つ書いてください\"}, {\"index\": 7, \"item_id\": \"10\", \"domain\": \"基本的なファイル管理\", \"tier\": 1, \"p_final\": 0.911, \"question_text\": \"ディレクトリ A の中の file.txt をディレクトリ B に移動するコマンドとして正しいものはどれですか？\"}], \"last_answer_correct\": true, \"overall_streak\": {\"correct\": 4, \"incorrect\": 0}, \"recent_correct_rate_5\": 0.8, \"domain_streak\": {\"基本的なファイル管理\": {\"correct\": 4, \"incorrect\": 0}, \"所有者とパーミッション\": {\"correct\": 0, \"incorrect\": 1}}, \"domain_recent_correct_rate_5\": {\"基本的なファイル管理\": 0.8, \"所有者とパーミッション\": 0.0}, \"recent_domains_5\": [\"基本的なファイル管理\", \"基本的なファイル管理\", \"基本的なファイル管理\", \"基本的なファイル管理\", \"基本的なファイル管理\"]}",
+  "response": {
+    "choice_index": 1,
+    "reason_ja": "選んだ設問は「基本的なファイル管理」の分野で、ティア2のやや難しめの内容です。推定正答確率は0.9316で、直近の成績が好調なため、範囲を広げるために選びました。直近の成績が「基本的なファイル管理」に偏っているため、他の分野での学習を促進する意図もあります。",
+    "motivation_ja": "この設問を解けると、ファイルを削除する際に安全に操作できるようになるよ！"
+  }
+}

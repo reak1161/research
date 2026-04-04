@@ -1,0 +1,121 @@
+{
+  "timestamp": "2026-02-18T08:03:05.370845+00:00",
+  "user_id": "user_000",
+  "item_id": "21",
+  "event": "selection",
+  "model": "gpt-4o-mini",
+  "latency_ms": 4247.416482001427,
+  "payload": {
+    "schema_version": "1.0",
+    "mode": "online",
+    "user_id": "user_000",
+    "user_state": {
+      "基本的なファイル管理": 0.98,
+      "所有者とパーミッション": 0.1287,
+      "基本的なファイル管理:t1": 0.4564,
+      "基本的なファイル管理:t2": 0.3539,
+      "所有者とパーミッション:t1": 0.513,
+      "所有者とパーミッション:t2": 0.171,
+      "所有者とパーミッション:t3": 0.5549
+    },
+    "candidates_indexed": [
+      {
+        "index": 0,
+        "item_id": "21",
+        "domain": "所有者とパーミッション",
+        "tier": 1,
+        "p_final": 0.1778,
+        "question_text": "ファイル data.txt の所有者を user1 に変更するコマンドとして正しいものはどれですか？"
+      },
+      {
+        "index": 1,
+        "item_id": "16",
+        "domain": "基本的なファイル管理",
+        "tier": 2,
+        "p_final": 0.9821,
+        "question_text": "1MB のゼロデータを10個連結したファイル zero.img を作成したいときに最も適切なコマンドはどれですか？"
+      },
+      {
+        "index": 2,
+        "item_id": "25",
+        "domain": "所有者とパーミッション",
+        "tier": 3,
+        "p_final": 0.2296,
+        "question_text": "umask が 022 の環境で新しい通常ファイルを作成したときのデフォルトパーミッションを数字3桁で答えてください"
+      },
+      {
+        "index": 3,
+        "item_id": "17",
+        "domain": "基本的なファイル管理",
+        "tier": 2,
+        "p_final": 0.9862,
+        "question_text": "指定したファイルの種類を判定して表示するコマンド名を一つ書いてください"
+      },
+      {
+        "index": 4,
+        "item_id": "26",
+        "domain": "所有者とパーミッション",
+        "tier": 3,
+        "p_final": 0.2443,
+        "question_text": "実行ファイルに SUID ビットが設定されているときの動作として正しいものはどれですか？"
+      },
+      {
+        "index": 5,
+        "item_id": "27",
+        "domain": "所有者とパーミッション",
+        "tier": 3,
+        "p_final": 0.2403,
+        "question_text": "ディレクトリに SGID ビットが設定されているときの効果として最も適切なものはどれですか？"
+      },
+      {
+        "index": 6,
+        "item_id": "28",
+        "domain": "所有者とパーミッション",
+        "tier": 3,
+        "p_final": 0.1894,
+        "question_text": "スティッキービットが設定された共有ディレクトリとしてよく使われる /tmp の特徴として正しいものはどれですか？"
+      },
+      {
+        "index": 7,
+        "item_id": "29",
+        "domain": "所有者とパーミッション",
+        "tier": 2,
+        "p_final": 0.2551,
+        "question_text": "パーミッション文字列 rwxr-xr-x を数字3桁で表したものを答えてください"
+      }
+    ],
+    "last_answer_correct": true,
+    "overall_streak": {
+      "correct": 1,
+      "incorrect": 0
+    },
+    "recent_correct_rate_5": 0.6,
+    "domain_streak": {
+      "基本的なファイル管理": {
+        "correct": 0,
+        "incorrect": 1
+      },
+      "所有者とパーミッション": {
+        "correct": 1,
+        "incorrect": 0
+      }
+    },
+    "domain_recent_correct_rate_5": {
+      "基本的なファイル管理": 0.6,
+      "所有者とパーミッション": 0.4
+    },
+    "recent_domains_5": [
+      "基本的なファイル管理",
+      "基本的なファイル管理",
+      "基本的なファイル管理",
+      "基本的なファイル管理",
+      "所有者とパーミッション"
+    ]
+  },
+  "prompt": "[system]\nあなたは学習支援システムのために「出題候補から1問だけ選ぶアシスタント」です。\n回答形式は必ず JSON オブジェクト 1つだけにしてください。\nJSON の前後にコメントを書いたり、日本語だけの文章を出力したりしないでください。\n\n出力形式:\n{\"choice_index\": 0, \"reason_ja\": \"...\", \"motivation_ja\": \"...\"}\n\n- choice_index: candidates_indexed 配列の index（整数）\n\n- reason_ja:\n  教員・開発者向けの選定理由を書いてください。次を守ってください。\n  【矛盾防止（必須）】\n  - reason_ja に書く domain/tier/p_final は必ず candidates_indexed[choice_index] と一致させてください。\n  - reason_ja の冒頭に必ず書いてください：\n    「選択: index=..., domain=..., tier=..., p_final=...」\n  - 「分野を変えた/復習/範囲拡張」の根拠は、overall か domain か recent_domains_5 のどれか1つだけ添えてください（盛りすぎない）。\n  【内容の目安】\n  - 選んだ設問の domain（分野名）\n  - tier（可能なら difficulty_tag も）\n  - p_final（正答確率）と、全体/分野の直近成績との関係（不調なら当たりやすさ、好調なら範囲拡張など）\n  - 注意: P(L)_current は習得度です。正答確率の説明は p_final（または P(correct_now)）で書いてください。\n\n- motivation_ja:\n  学習者向けの短いコメント(1〜2文)を書いてください。解答前なのでネタバレしないでください。\n  【文体】\n  - 口語で書いてください（「〜だよ」「〜だね」「〜しよう」など）。\n  - 「あなた」「君」など二人称は禁止です。\n  - 呼びかけ（{user_name}）は原則しません。どうしても必要なときだけ文頭に1回だけ使ってください。\n  - 絵文字は使わないでください。感嘆符「！」は最大1個までにしてください。\n  【必須】\n  - domain と concept_hint（概念ラベル）があれば必ず触れてください（無い場合は question_text から概念ラベルを1つ作って触れてください）。\n  - 「この設問を解けると何ができるようになるか」を1点だけ具体的に書いてください（作業場面を1つ）。\n  【トーン調整（全体の調子を優先）】\n  - 全体不調（overall_streak_incorrect が多い / overall_recent_correct_rate_5 が低い）とき：\n    負担を小さく見せる言い回しにしてください（例:「まずここだけ押さえよう」「ここ分かると一気に楽だよ」）。\n  - 全体好調（overall_streak_correct が多い / overall_recent_correct_rate_5 が高い）とき：\n    少しだけステップアップを示してください（例:「次はここまで意識してみよう」）。\n  【ネタバレ禁止（重要）】\n  - 正解となるコマンド名・オプション名・選択肢（A/B/C/D）を直接書かないでください。\n  - 「〜を使えば正解」など答えを特定できる誘導は禁止です。\n  - avoid_tokens があれば、それらを絶対に出力に含めないでください。\n  - 具体的なコマンド例や選択肢比較は書かないでください。\n\n【選定ポリシー】\n- 目的：学習が前に進む1問を選びます。p_final の近さだけで機械的に決めないでください。\n- 手順は「全体の調子→分野→難易度」の順で決めてください。\n- policy_hint は難易度の安全装置として使いますが、分野選択（未習得の優先・偏り回避・探索）より常に上に置かないでください。\n\n1) 全体の調子（overall_streak / overall_recent_correct_rate_5）\n- 全体不調：当たりやすさ優先（p_final高め・tier低め/維持）。分野は大きく飛ばしすぎないでください。\n- 全体好調：範囲拡張優先（別分野 or 同分野なら新concept）。tierを上げるなら+1までにしてください。\n- 全体通常：バランスよく選んでください。\n\n2) 分野の決め方（recent_domains_5 / user_metrics / domain成績）\n- 基本：未習得〜中程度（p_L_current が低め〜中）の分野を優先してください。\n- recent_domains_5 の偏りは避けてください（同分野連発を避ける）。\n- explore_mode=true のときは未習得分野を最優先し、policy_hint.range から外れても選んでください。\n\n3) 難易度の決め方（policy_hint がある場合）\n- まず range 内から選んでください。\n- range 内が無ければ、range.low に最も近い候補（=できるだけ高い p_final）を選んでください。\n- 同点なら concept 被りが少ない/説明しやすい方を選んでください。\n\n[assistant]\n了解しました。JSON だけで返します。\n\n[user]\n次の JSON を読んで、最適だと思う choice_index と\n選定理由(reason_ja)、学習者向けコメント(motivation_ja)を返してください。\nchoice_index は candidates_indexed の index を使ってください。\n\n{\"schema_version\": \"1.0\", \"mode\": \"online\", \"user_id\": \"user_000\", \"user_state\": {\"基本的なファイル管理\": 0.98, \"所有者とパーミッション\": 0.1287, \"基本的なファイル管理:t1\": 0.4564, \"基本的なファイル管理:t2\": 0.3539, \"所有者とパーミッション:t1\": 0.513, \"所有者とパーミッション:t2\": 0.171, \"所有者とパーミッション:t3\": 0.5549}, \"candidates_indexed\": [{\"index\": 0, \"item_id\": \"21\", \"domain\": \"所有者とパーミッション\", \"tier\": 1, \"p_final\": 0.1778, \"question_text\": \"ファイル data.txt の所有者を user1 に変更するコマンドとして正しいものはどれですか？\"}, {\"index\": 1, \"item_id\": \"16\", \"domain\": \"基本的なファイル管理\", \"tier\": 2, \"p_final\": 0.9821, \"question_text\": \"1MB のゼロデータを10個連結したファイル zero.img を作成したいときに最も適切なコマンドはどれですか？\"}, {\"index\": 2, \"item_id\": \"25\", \"domain\": \"所有者とパーミッション\", \"tier\": 3, \"p_final\": 0.2296, \"question_text\": \"umask が 022 の環境で新しい通常ファイルを作成したときのデフォルトパーミッションを数字3桁で答えてください\"}, {\"index\": 3, \"item_id\": \"17\", \"domain\": \"基本的なファイル管理\", \"tier\": 2, \"p_final\": 0.9862, \"question_text\": \"指定したファイルの種類を判定して表示するコマンド名を一つ書いてください\"}, {\"index\": 4, \"item_id\": \"26\", \"domain\": \"所有者とパーミッション\", \"tier\": 3, \"p_final\": 0.2443, \"question_text\": \"実行ファイルに SUID ビットが設定されているときの動作として正しいものはどれですか？\"}, {\"index\": 5, \"item_id\": \"27\", \"domain\": \"所有者とパーミッション\", \"tier\": 3, \"p_final\": 0.2403, \"question_text\": \"ディレクトリに SGID ビットが設定されているときの効果として最も適切なものはどれですか？\"}, {\"index\": 6, \"item_id\": \"28\", \"domain\": \"所有者とパーミッション\", \"tier\": 3, \"p_final\": 0.1894, \"question_text\": \"スティッキービットが設定された共有ディレクトリとしてよく使われる /tmp の特徴として正しいものはどれですか？\"}, {\"index\": 7, \"item_id\": \"29\", \"domain\": \"所有者とパーミッション\", \"tier\": 2, \"p_final\": 0.2551, \"question_text\": \"パーミッション文字列 rwxr-xr-x を数字3桁で表したものを答えてください\"}], \"last_answer_correct\": true, \"overall_streak\": {\"correct\": 1, \"incorrect\": 0}, \"recent_correct_rate_5\": 0.6, \"domain_streak\": {\"基本的なファイル管理\": {\"correct\": 0, \"incorrect\": 1}, \"所有者とパーミッション\": {\"correct\": 1, \"incorrect\": 0}}, \"domain_recent_correct_rate_5\": {\"基本的なファイル管理\": 0.6, \"所有者とパーミッション\": 0.4}, \"recent_domains_5\": [\"基本的なファイル管理\", \"基本的なファイル管理\", \"基本的なファイル管理\", \"基本的なファイル管理\", \"所有者とパーミッション\"]}",
+  "response": {
+    "choice_index": 0,
+    "reason_ja": "選択: index=0, domain=所有者とパーミッション, tier=1, p_final=0.1778。全体的に好調な状態で、所有者とパーミッションの分野での直近の成績が不調であるため、正答確率が高めのこの設問を選ぶことで、基礎を固めることができる。",
+    "motivation_ja": "この設問を解けると、ファイルの所有者を変更する方法がわかるようになるよ。まずここだけ押さえておこう！"
+  }
+}

@@ -10,7 +10,7 @@ item_id,L1,L2,L3,tier,question_text,answer_type,choice_A,choice_B,choice_C,choic
 9,Linuxファイル操作,基本的なファイル管理,cp,2,ディレクトリ A をタイムスタンプと権限を保ったままディレクトリ B にコピーしたいときに最も適切なコマンドはどれですか？,mcq,cp -pr A B,cp A B,cp -r A B,cp -p A B,A,,cp -pr で再帰コピーと属性の保持を同時に行う
 10,Linuxファイル操作,基本的なファイル管理,mv,1,ディレクトリ A の中の file.txt をディレクトリ B に移動するコマンドとして正しいものはどれですか？,mcq,mv A/file.txt B/,mv B/file.txt A/,cp A/file.txt B/,mv file.txt A/B,A,,mv の第1引数に移動元第2引数に移動先を指定する
 11,Linuxファイル操作,基本的なファイル管理,ワイルドカード,1,file01.txt や file02.txt など2桁の番号付きファイルにマッチし fileA.txt にはマッチしないパターンはどれですか？,mcq,file[0-9][0-9].txt,file?.txt,file*.txt,file[0-9].txt,A,,かっこ内に数字の範囲を指定して2文字分並べることで2桁の数字に限定できる
-12,Linuxファイル操作,基本的なファイル管理,ブレース展開,2,echo {A、B、C}.txt の出力として最も適切なものはどれですか？,mcq,A.txt B.txt C.txt,{A、B、C}.txt,A B C .txt,A.txt B.txt／C.txt,A,,ブレース展開によりかっこ内の要素がそれぞれ展開される
+12,Linuxファイル操作,基本的なファイル管理,ブレース展開,2,"echo {A,B,C}.txt の出力として最も適切なものはどれですか？",mcq,A.txt B.txt C.txt,"{A,B,C}.txt",A B C .txt,A.txt B.txt／C.txt,A,,ブレース展開によりかっこ内の要素がそれぞれ展開される
 13,Linuxファイル操作,基本的なファイル管理,touch,1,ファイルのタイムスタンプを更新したり存在しない場合は空のファイルを作成したりするコマンド名を一つ書いてください,text,,,,,,touch,touch は指定した名前のファイルが無ければ新規作成する
 14,Linuxファイル操作,基本的なファイル管理,tar,2,ディレクトリ dir1 を archive.tar という名前のアーカイブにまとめるコマンドとして最も適切なものはどれですか？,mcq,tar cf archive.tar dir1,tar xf archive.tar dir1,tar czf dir1 archive.tar,tar tvf archive.tar dir1,A,,tar cf で新しいアーカイブファイルを作成できる
 15,Linuxファイル操作,基本的なファイル管理,tar,2,gzip 圧縮されたアーカイブ backup.tar.gz を展開する tar のコマンドを一つ書いてください,text,,,,,,tar xzf backup.tar.gz,tar xzf で展開と同時に gzip 解凍を行うことができる
